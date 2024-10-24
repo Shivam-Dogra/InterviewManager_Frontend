@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import TopNavbar from './TopNavbar';
 import Sidebar from './Slidebar';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate
 import '../App.css';
 
 const Dashboard = () => {
@@ -10,8 +10,7 @@ const Dashboard = () => {
   const [expandedTile, setExpandedTile] = useState(null); // State to track expanded tiles
   const [editMode, setEditMode] = useState(null); // State to track which tile is in edit mode
   const [formData, setFormData] = useState({}); // State for form data for editing
-  const navigate = useNavigate();
-
+  const navigate = useNavigate(); // Initialize useNavigate
 
   // Fetch interviews on component mount
   useEffect(() => {
@@ -52,7 +51,8 @@ const Dashboard = () => {
   };
 
   // Save updated interview data
-  const handleSave = async (id) => {
+  const handleSave = async (id, e) => {
+    e.preventDefault(); // Prevent the page from refreshing on form submit
     try {
       // Send updated interview data to the backend
       const response = await axios.put(`http://localhost:3000/api/interview/update/${id}`, formData);
@@ -69,7 +69,9 @@ const Dashboard = () => {
 
       // Exit edit mode after saving
       setEditMode(null);
-      navigate('/dashboard');
+
+      // Redirect to dashboard
+      navigate('/');  // Redirect after saving
     } catch (error) {
       console.error('Error updating interview:', error);
       alert('Error updating interview');
@@ -112,83 +114,85 @@ const Dashboard = () => {
                   <div className="interview-details">
                     {editMode === interview._id ? (
                       // Edit Mode: Render form fields
-                      <div className="edit-form">
-                        <div className="form-group">
-                          <label>Title</label>
-                          <input
-                            type="text"
-                            name="title"
-                            value={formData.title}
-                            onChange={handleInputChange}
-                          />
+                      <form onSubmit={(e) => handleSave(interview._id, e)}>  {/* Form to prevent reload */}
+                        <div className="edit-form">
+                          <div className="form-group">
+                            <label>Title</label>
+                            <input
+                              type="text"
+                              name="title"
+                              value={formData.title}
+                              onChange={handleInputChange}
+                            />
+                          </div>
+                          <div className="form-group">
+                            <label>Interviewer Name</label>
+                            <input
+                              type="text"
+                              name="interviewerName"
+                              value={formData.interviewerName}
+                              onChange={handleInputChange}
+                            />
+                          </div>
+                          <div className="form-group">
+                            <label>Skillset</label>
+                            <input
+                              type="text"
+                              name="skillset"
+                              value={formData.skillset.join(', ')}
+                              onChange={handleInputChange}
+                            />
+                          </div>
+                          <div className="form-group">
+                            <label>Duration (minutes)</label>
+                            <input
+                              type="number"
+                              name="duration"
+                              value={formData.duration}
+                              onChange={handleInputChange}
+                            />
+                          </div>
+                          <div className="form-group">
+                            <label>Date</label>
+                            <input
+                              type="date"
+                              name="date"
+                              value={new Date(formData.date).toISOString().split('T')[0]}
+                              onChange={handleInputChange}
+                            />
+                          </div>
+                          <div className="form-group">
+                            <label>Time</label>
+                            <input
+                              type="text"
+                              name="time"
+                              value={formData.time}
+                              onChange={handleInputChange}
+                            />
+                          </div>
+                          <div className="form-group">
+                            <label>Notes</label>
+                            <input
+                              type="text"
+                              name="notes"
+                              value={formData.notes}
+                              onChange={handleInputChange}
+                            />
+                          </div>
+                          <div className="form-group">
+                            <label>Department</label>
+                            <input
+                              type="text"
+                              name="department"
+                              value={formData.department}
+                              onChange={handleInputChange}
+                            />
+                          </div>
+                          <button className="save-btn" type="submit"> {/* Submit button */}
+                            Save
+                          </button>
                         </div>
-                        <div className="form-group">
-                          <label>Interviewer Name</label>
-                          <input
-                            type="text"
-                            name="interviewerName"
-                            value={formData.interviewerName}
-                            onChange={handleInputChange}
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label>Skillset</label>
-                          <input
-                            type="text"
-                            name="skillset"
-                            value={formData.skillset.join(', ')}
-                            onChange={handleInputChange}
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label>Duration (minutes)</label>
-                          <input
-                            type="number"
-                            name="duration"
-                            value={formData.duration}
-                            onChange={handleInputChange}
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label>Date</label>
-                          <input
-                            type="date"
-                            name="date"
-                            value={new Date(formData.date).toISOString().split('T')[0]}
-                            onChange={handleInputChange}
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label>Time</label>
-                          <input
-                            type="text"
-                            name="time"
-                            value={formData.time}
-                            onChange={handleInputChange}
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label>Notes</label>
-                          <input
-                            type="text"
-                            name="notes"
-                            value={formData.notes}
-                            onChange={handleInputChange}
-                          />
-                        </div>
-                        <div className="form-group">
-                          <label>Department</label>
-                          <input
-                            type="text"
-                            name="department"
-                            value={formData.department}
-                            onChange={handleInputChange}
-                          />
-                        </div>
-                        <button className="save-btn" onClick={() => handleSave(interview._id)}>
-                          Save
-                        </button>
-                      </div>
+                      </form>
                     ) : (
                       // View Mode: Render details
                       <>
