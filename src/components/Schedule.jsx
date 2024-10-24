@@ -17,7 +17,7 @@ const ScheduleInterview = () => {
     time: '',
     notes: '',
     department: '',
-    signedUp: true,
+    signedUp: '',
     completionStatus: false
   });
 
@@ -82,7 +82,7 @@ const ScheduleInterview = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="interviewerName">Interviewer Name</label>
+              <label htmlFor="interviewerName">Candidate Name</label>
               <input
                 type="text"
                 name="interviewerName"
@@ -93,7 +93,7 @@ const ScheduleInterview = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="interviewerEmail">Interviewer Email</label>
+              <label htmlFor="interviewerEmail">Candidate Email</label>
               <input
                 type="email"
                 name="interviewerEmail"
@@ -104,7 +104,7 @@ const ScheduleInterview = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="intervieweesName">Interviewees (comma-separated)</label>
+              <label htmlFor="intervieweesName">Interviewer (comma-separated)</label>
               <input
                 type="text"
                 name="intervieweesName"
@@ -179,6 +179,21 @@ const ScheduleInterview = () => {
                 required
               />
             </div>
+            
+            <div className="form-group">
+              <label htmlFor="signedUp">Signed Up</label>
+              <select
+                name="signedUp"
+                value={formData.signedUp}
+                onChange={handleChange}
+                required
+              >
+                <option value="">Select an option</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
+
 
             <button type="submit" className="submit-btn">Schedule Interview</button>
           </form>

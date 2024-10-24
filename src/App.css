@@ -341,7 +341,7 @@ textarea {
 }
 
 .view-more-btn {
-  background-color: #007bff;
+  background-color: #900909;
   color: #fff;
   border: none;
   padding: 8px 16px;
@@ -352,7 +352,7 @@ textarea {
 }
 
 .view-more-btn:hover {
-  background-color: #0056b3;
+  background-color: #6b0606;
 }
 
 /* Interview Details Styling (shown when expanded) */
@@ -369,7 +369,7 @@ textarea {
 
 /*edit interview*/
 .view-more-btn, .edit-btn, .save-btn {
-  background-color: #007bff;
+  background-color: #900909;
   color: white;
   border: none;
   padding: 8px 16px;
@@ -380,7 +380,7 @@ textarea {
 }
 
 .view-more-btn:hover, .edit-btn:hover, .save-btn:hover {
-  background-color: #0056b3;
+  background-color: #6b0606;
 }
 
 .edit-form .form-group {
