@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import TopNavbar from './TopNavbar';
 import Sidebar from './Slidebar';
@@ -9,6 +10,8 @@ const Dashboard = () => {
   const [expandedTile, setExpandedTile] = useState(null); // State to track expanded tiles
   const [editMode, setEditMode] = useState(null); // State to track which tile is in edit mode
   const [formData, setFormData] = useState({}); // State for form data for editing
+  const navigate = useNavigate();
+
 
   // Fetch interviews on component mount
   useEffect(() => {
@@ -66,6 +69,7 @@ const Dashboard = () => {
 
       // Exit edit mode after saving
       setEditMode(null);
+      navigate('/dashboard');
     } catch (error) {
       console.error('Error updating interview:', error);
       alert('Error updating interview');
