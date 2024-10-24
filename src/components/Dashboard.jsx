@@ -51,10 +51,21 @@ const Dashboard = () => {
   // Save updated interview data
   const handleSave = async (id) => {
     try {
-      await axios.put(`http://localhost:3000/api/interview/update/${id}`, formData);
+      // Send updated interview data to the backend
+      const response = await axios.put(`http://localhost:3000/api/interview/update/${id}`, formData);
+      
+      // Notify user of successful update
       alert('Interview Updated Successfully');
-      setEditMode(null); // Exit edit mode after saving
-      // Optionally, re-fetch the interviews here to ensure the UI is updated with the latest data
+      
+      // Update the interviews array with the new updated data
+      setInterviews((prevInterviews) =>
+        prevInterviews.map((interview) =>
+          interview._id === id ? response.data : interview
+        )
+      );
+
+      // Exit edit mode after saving
+      setEditMode(null);
     } catch (error) {
       console.error('Error updating interview:', error);
       alert('Error updating interview');
@@ -75,9 +86,10 @@ const Dashboard = () => {
                 <div className="interview-summary">
                   <h4>{interview.title}</h4>
                   <h4 style={{ color: interview.signedUp ? 'green' : 'red' }}>
-                    Signed Up: {interview.signedUp ? 'Yes' : 'No'}</h4>
-                  <p>Interviewer: {interview.interviewerName}</p>
-                  <p>Interviewees: {interview.interviewees.length}</p>
+                    Signed Up: {interview.signedUp ? 'Yes' : 'No'}
+                  </h4>
+                  <p>Candidate: {interview.interviewerName}</p>
+                  <p>Interviewer: {interview.interviewees.length}</p>
                   <button
                     className="view-more-btn"
                     onClick={() => toggleTile(interview._id)}
