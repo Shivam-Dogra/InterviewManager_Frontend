@@ -67,6 +67,7 @@ const ScheduleInterview = () => {
         {/* Main Content Area */}
         <div className="content-area">
           <h3>Schedule Interview</h3>
+          <h3>Give Interview details for people to Sign up!</h3>
 
           {/* Schedule Interview Form */}
           <form className="schedule-form" onSubmit={handleSubmit}>
@@ -104,19 +105,18 @@ const ScheduleInterview = () => {
             </div>
 
             <div className="form-group">
-              <label htmlFor="intervieweesName">Interviewer (comma-separated)</label>
+              <label htmlFor="intervieweesName">Interviewer </label>
               <input
                 type="text"
                 name="intervieweesName"
                 value={formData.intervieweesName.join(', ')} // Display as comma-separated string
                 onChange={handleIntervieweesNameChange}
-                placeholder="Enter names separated by commas"
-                required
+                
               />
             </div>
 
             <div className="form-group">
-              <label htmlFor="skillset">Skillset (comma-separated)</label>
+              <label htmlFor="skillset">Skillset </label>
               <input
                 type="text"
                 name="skillset"
@@ -133,7 +133,7 @@ const ScheduleInterview = () => {
                 name="duration"
                 value={formData.duration}
                 onChange={handleChange}
-                required
+                
               />
             </div>
 
@@ -155,7 +155,7 @@ const ScheduleInterview = () => {
                 name="time"
                 value={formData.time}
                 onChange={handleChange}
-                required
+                
               />
             </div>
 
@@ -181,12 +181,17 @@ const ScheduleInterview = () => {
             </div>
             
             <div className="form-group">
-              <label htmlFor="signedUp">Signed Up</label>
+              <label htmlFor="signedUp">Anyone Signed Up for this interview?</label>
               <select
                 name="signedUp"
                 value={formData.signedUp}
                 onChange={handleChange}
                 required
+                style={{
+                  fontSize: '1rem',    
+                  padding: '6px',       
+                  borderRadius: '5px'   
+                }}
               >
                 <option value="">Select an option</option>
                 <option value="yes">Yes</option>

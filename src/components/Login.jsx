@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; 
 import '../App.css'; 
 import { Player } from '@lottiefiles/react-lottie-player'; 
 import interviewAnimation from '../assets/interview_image1.json'; 
@@ -7,6 +8,7 @@ import interviewAnimation from '../assets/interview_image1.json';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate(); 
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,6 +19,8 @@ const Login = () => {
       });
       alert('Login Successful!');
       console.log(response.data);
+      navigate('/'); 
+
     } catch (error) {
       alert('Login Failed!');
       console.error('Login error:', error);

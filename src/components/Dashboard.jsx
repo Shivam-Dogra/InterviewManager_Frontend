@@ -69,9 +69,8 @@ const Dashboard = () => {
 
       // Exit edit mode after saving
       setEditMode(null);
+      window.location.reload();
 
-      // Redirect to dashboard
-      navigate('/');  // Redirect after saving
     } catch (error) {
       console.error('Error updating interview:', error);
       alert('Error updating interview');
@@ -95,7 +94,7 @@ const Dashboard = () => {
                     Signed Up: {interview.signedUp ? 'Yes' : 'No'}
                   </h4>
                   <p>Candidate: {interview.interviewerName}</p>
-                  <p>Interviewer: {interview.interviewees.length}</p>
+                  <p>Interviewer: {interview.intervieweesName}</p>
                   <button
                     className="view-more-btn"
                     onClick={() => toggleTile(interview._id)}
@@ -126,7 +125,7 @@ const Dashboard = () => {
                             />
                           </div>
                           <div className="form-group">
-                            <label>Interviewer Name</label>
+                            <label>Candidate Name</label>
                             <input
                               type="text"
                               name="interviewerName"
@@ -134,6 +133,28 @@ const Dashboard = () => {
                               onChange={handleInputChange}
                             />
                           </div>
+                          <div className="form-group">
+                            <label>Candidate Email</label>
+                            <input
+                              type="email"
+                              name="interviewerEmail"
+                              value={formData.interviewerEmail}
+                              onChange={handleInputChange}
+                            />
+                          </div>
+                          
+                          <div className="form-group">
+              <label htmlFor="intervieweesName">Interviewer </label>
+              <input
+                type="text"
+                name="intervieweesName"
+                value={formData.intervieweesName} 
+                onChange={handleInputChange}
+                
+              />
+            </div>
+
+
                           <div className="form-group">
                             <label>Skillset</label>
                             <input
@@ -188,6 +209,24 @@ const Dashboard = () => {
                               onChange={handleInputChange}
                             />
                           </div>
+                          <div className="form-group">
+              <label htmlFor="signedUp">Anyone Signed Up for this interview?</label>
+              <select
+                name="signedUp"
+                value={formData.signedUp}
+                onChange={handleInputChange}
+                required
+                style={{
+                  fontSize: '1rem',    
+                  padding: '6px',       
+                  borderRadius: '5px'   
+                }}
+              >
+                <option value="">Select an option</option>
+                <option value="yes">Yes</option>
+                <option value="no">No</option>
+              </select>
+            </div>
                           <button className="save-btn" type="submit"> {/* Submit button */}
                             Save
                           </button>

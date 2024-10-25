@@ -3,6 +3,7 @@ import axios from 'axios';
 import '../App.css'; 
 import { Player } from '@lottiefiles/react-lottie-player'; 
 import interviewAnimation from '../assets/interview_image1.json'; 
+import { useNavigate } from 'react-router-dom';
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -11,6 +12,8 @@ const Register = () => {
   const [picture, setPicture] = useState('');
   const [position, setPosition] = useState('');
   const [department, setDepartment] = useState('');
+  const navigate = useNavigate(); 
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,6 +28,8 @@ const Register = () => {
       });
       alert('Registration Successful!');
       console.log(response.data);
+      navigate('/'); 
+      
     } catch (error) {
       alert('Registration Failed!');
       console.error('Registration error:', error);
