@@ -2,21 +2,46 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import TopNavbar from './TopNavbar';
 import Sidebar from './Slidebar';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate
+import Filter from './Filter';
 import '../App.css';
 
 const Dashboard = () => {
-  const [interviews, setInterviews] = useState([]); // State for all interviews
-  const [expandedTile, setExpandedTile] = useState(null); // State to track expanded tiles
-  const [editMode, setEditMode] = useState(null); // State to track which tile is in edit mode
-  const [formData, setFormData] = useState({}); // State for form data for editing
-  const navigate = useNavigate(); // Initialize useNavigate
+  const [interviews, setInterviews] = useState([]);
+  const [expandedTile, setExpandedTile] = useState(null);
+  const [editMode, setEditMode] = useState(null);
+  const [formData, setFormData] = useState({});
+  const [username, setUsername] = useState('');
 
-  // Fetch interviews on component mount
+  const filterInterviews = async (filters = {}) => {
+    const token = localStorage.getItem('token');
+    try {
+      const queryParts = [];
+      if (filters.date) queryParts.push(`date=${filters.date}`);
+      if (filters.department) queryParts.push(`department=${filters.department}`);
+      if (filters.signedUp) queryParts.push(`signedUp=${filters.signedUp}`);
+  
+      const query = queryParts.length ? `?${queryParts.join('&')}` : '';
+      
+      const response = await axios.get(`http://localhost:3000/api/interview/search${query}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      
+      setInterviews(response.data);
+    } catch (error) {
+      console.error('Error fetching interviews:', error);
+    }
+  };
+
   useEffect(() => {
     const fetchInterviews = async () => {
+      const token = localStorage.getItem('token');
+      const storedUsername = localStorage.getItem('username');
+      setUsername(storedUsername);
+
       try {
-        const response = await axios.get('http://localhost:3000/api/interview/interviews');
+        const response = await axios.get('http://localhost:3000/api/interview/interviews', {
+          headers: { Authorization: `Bearer ${token}` },
+        });
         setInterviews(response.data);
       } catch (error) {
         console.error('Error fetching interviews:', error);
@@ -25,65 +50,90 @@ const Dashboard = () => {
     fetchInterviews();
   }, []);
 
-  // Toggle between expanding/collapsing the tile
   const toggleTile = (id) => {
     setExpandedTile(expandedTile === id ? null : id);
   };
 
-  // Toggle between view and edit mode
   const toggleEditMode = (id) => {
     if (editMode === id) {
-      setEditMode(null); // Exit edit mode
+      setEditMode(null);
     } else {
       const interviewToEdit = interviews.find((interview) => interview._id === id);
-      setFormData(interviewToEdit); // Set form data to the selected interview
-      setEditMode(id); // Enter edit mode
+      setFormData({
+        title: interviewToEdit.title,
+        interviewerName: interviewToEdit.interviewerName,
+        interviewerEmail: interviewToEdit.interviewerEmail,
+        intervieweesName: interviewToEdit.intervieweesName,
+        skillset: interviewToEdit.skillset.join(', ') || '', // Join for input
+        duration: interviewToEdit.duration,
+        date: new Date(interviewToEdit.date).toISOString().split('T')[0], // Format date for input
+        time: interviewToEdit.time,
+        notes: interviewToEdit.notes,
+        department: interviewToEdit.department,
+        signedUp: interviewToEdit.signedUp,
+      });
+      setEditMode(id);
     }
   };
 
-  // Handle form input changes
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
+    if (name === "skillset") {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value.split(',').map((skill) => skill.trim()), // Convert to array
+      }));
+    } else {
+      setFormData((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
+    }
   };
 
-  // Save updated interview data
   const handleSave = async (id, e) => {
-    e.preventDefault(); // Prevent the page from refreshing on form submit
+    e.preventDefault();
+    const token = localStorage.getItem('token');
     try {
-      // Send updated interview data to the backend
-      const response = await axios.put(`http://localhost:3000/api/interview/update/${id}`, formData);
+      const response = await axios.put(`http://localhost:3000/api/interview/update/${id}`, formData, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      console.log('Updated interview data:', response.data);
       
-      // Notify user of successful update
-      alert('Interview Updated Successfully');
-      
-      // Update the interviews array with the new updated data
-      setInterviews((prevInterviews) =>
-        prevInterviews.map((interview) =>
-          interview._id === id ? response.data : interview
-        )
-      );
-
-      // Exit edit mode after saving
-      setEditMode(null);
+      // Reload the page after successful update
       window.location.reload();
-
     } catch (error) {
       console.error('Error updating interview:', error);
       alert('Error updating interview');
     }
   };
 
+  const handleDelete = async (id) => {
+    const token = localStorage.getItem('token');
+    const confirmDelete = window.confirm("Are you sure you want to delete this interview?");
+    if (confirmDelete) {
+      try {
+        await axios.delete(`http://localhost:3000/api/interview/delete/${id}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        alert('Interview deleted successfully');
+        window.location.reload(); // Reload the page after deletion
+      } catch (error) {
+        console.error('Error deleting interview:', error);
+        alert('Error deleting interview');
+      }
+    }
+  };
+
+
   return (
     <div className="dashboard-container">
-      <TopNavbar />
+      <TopNavbar username={username} />
       <div className="main-content">
         <Sidebar />
         <div className="content-area">
-          <h3>See all interviews..</h3>
+          <h3>🔥 All Interviews, Your Way! Filter & Discover!</h3>
+          <Filter applyFilters={filterInterviews} />
 
           <div className="interview-list">
             {interviews.map((interview) => (
@@ -107,13 +157,19 @@ const Dashboard = () => {
                   >
                     {editMode === interview._id ? 'Cancel Edit' : 'Edit'}
                   </button>
+                  <button
+                    className="edit-btn"
+                    onClick={() => handleDelete(interview._id)}
+                  >
+                    Delete
+                  </button>
                 </div>
 
                 {expandedTile === interview._id && (
                   <div className="interview-details">
                     {editMode === interview._id ? (
                       // Edit Mode: Render form fields
-                      <form onSubmit={(e) => handleSave(interview._id, e)}>  {/* Form to prevent reload */}
+                      <form onSubmit={(e) => handleSave(interview._id, e)}>
                         <div className="edit-form">
                           <div className="form-group">
                             <label>Title</label>
@@ -142,25 +198,21 @@ const Dashboard = () => {
                               onChange={handleInputChange}
                             />
                           </div>
-                          
                           <div className="form-group">
-              <label htmlFor="intervieweesName">Interviewer </label>
-              <input
-                type="text"
-                name="intervieweesName"
-                value={formData.intervieweesName} 
-                onChange={handleInputChange}
-                
-              />
-            </div>
-
-
+                            <label>Interviewer</label>
+                            <input
+                              type="text"
+                              name="intervieweesName"
+                              value={formData.intervieweesName}
+                              onChange={handleInputChange}
+                            />
+                          </div>
                           <div className="form-group">
                             <label>Skillset</label>
                             <input
                               type="text"
                               name="skillset"
-                              value={formData.skillset.join(', ')}
+                              value={formData.skillset}
                               onChange={handleInputChange}
                             />
                           </div>
@@ -178,7 +230,7 @@ const Dashboard = () => {
                             <input
                               type="date"
                               name="date"
-                              value={new Date(formData.date).toISOString().split('T')[0]}
+                              value={formData.date}
                               onChange={handleInputChange}
                             />
                           </div>
@@ -210,24 +262,19 @@ const Dashboard = () => {
                             />
                           </div>
                           <div className="form-group">
-              <label htmlFor="signedUp">Anyone Signed Up for this interview?</label>
-              <select
-                name="signedUp"
-                value={formData.signedUp}
-                onChange={handleInputChange}
-                required
-                style={{
-                  fontSize: '1rem',    
-                  padding: '6px',       
-                  borderRadius: '5px'   
-                }}
-              >
-                <option value="">Select an option</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-              </select>
-            </div>
-                          <button className="save-btn" type="submit"> {/* Submit button */}
+                            <label>Anyone Signed Up for this interview?</label>
+                            <select
+                              name="signedUp"
+                              value={formData.signedUp}
+                              onChange={handleInputChange}
+                              required
+                            >
+                              <option value="">Select an option</option>
+                              <option value="yes">Yes</option>
+                              <option value="no">No</option>
+                            </select>
+                          </div>
+                          <button className="save-btn" type="submit">
                             Save
                           </button>
                         </div>

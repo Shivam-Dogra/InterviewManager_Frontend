@@ -16,7 +16,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.1); 
+  background-color: rgba(80, 76, 76, 0.838); 
   border-radius: 10px;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   text-align: center;
@@ -341,7 +341,7 @@ textarea {
 }
 
 .view-more-btn {
-  background-color: #900909;
+  background-color: #c20b0b;
   color: #fff;
   border: none;
   padding: 8px 16px;
@@ -369,7 +369,7 @@ textarea {
 
 /*edit interview*/
 .view-more-btn, .edit-btn, .save-btn {
-  background-color: #900909;
+  background-color: #c20b0b;
   color: white;
   border: none;
   padding: 8px 16px;
@@ -394,6 +394,117 @@ textarea {
   border: 1px solid #ccc;
   border-radius: 5px;
 }
+
+.username {
+  background-color: #4d5053; /* Light blue background */
+  color: #333; /* Dark text color */
+  font-size: 1.2rem; /* Larger font size */
+  padding: 5px 10px; /* Padding around the text */
+  border-radius: 5px; /* Rounded corners */
+  display: inline-flex; /* Align items in a row */
+  align-items: center; /* Center items vertically */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+}
+
+.username i {
+  margin-right: 8px; /* Space between icon and text */
+  color: #007bff; /* Icon color */
+}
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  
+}
+
+.main-content {
+  display: flex;
+  flex: 1;
+}
+
+.content-area {
+  flex: 1;
+  padding: 20px;
+  background-color: #f3f2f2;
+}
+
+.analytics-card {
+  background-color: #ea1212;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+}
+
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: #f4f6f9; /* Light background color for the entire dashboard */
+}
+
+.main-content {
+  display: flex;
+  flex: 1;
+}
+
+.content-area {
+  flex: 1;
+  padding: 20px;
+}
+
+h3 {
+  color: #0e0e0f; /* Heading color for Analytics title */
+}
+
+.analytics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); /* Responsive grid */
+  gap: 20px; /* Space between cards */
+}
+
+.analytics-card {
+  background-color: #ffffff; /* White background for cards */
+  border: 1px solid #d9d7d7; /* Light border for cards */
+  border-radius: 10px; /* Rounded corners */
+  padding: 20px; /* Padding inside cards */
+  box-shadow: 0 2px 8px rgba(229, 12, 12, 0.1); /* Subtle shadow for depth */
+  transition: transform 0.2s; /* Smooth scaling effect on hover */
+}
+
+.analytics-card:hover {
+  transform: scale(1.05); /* Slightly enlarge card on hover */
+}
+
+.analytics-card h5, .analytics-card h6 {
+  margin: 0; /* Remove default margins */
+  color: #333; /* Dark text color for headings */
+  font-size: 1.2rem;
+  color: #000000;
+}
+
+.analytics-card ul {
+  list-style-type: none; /* Remove bullet points */
+  padding: 0; /* Remove padding */
+  margin: 10px 0 0; /* Margin above list */
+}
+
+.analytics-card li {
+  margin: 6px 0; /* Space between list items */
+  color: #555; /* Slightly lighter text for list items */
+  transition: color 0.2s; /* Smooth color transition */
+}
+
+.analytics-card li:hover {
+  color: #3f51b5; /* Change color on hover */
+}
+
+hr {
+  border: 0;
+  height: 1px;
+  background: #eee; /* Light line for separation */
+  margin: 10px 0; /* Margin for horizontal rules */
+}
+
 
 
 

@@ -47,6 +47,7 @@ const Register = () => {
               type="text"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              style={{ width: "400px", fontSize: "16px" }}
               required
             />
           </div>
@@ -56,6 +57,7 @@ const Register = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              style={{ width: "400px", fontSize: "16px" }}
               required
             />
           </div>
@@ -65,6 +67,7 @@ const Register = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              style={{ width: "400px", fontSize: "16px" }}
               required
             />
           </div>
@@ -74,6 +77,7 @@ const Register = () => {
               type="text"
               value={picture}
               onChange={(e) => setPicture(e.target.value)}
+              style={{ width: "400px", fontSize: "16px" }}
             />
           </div>
           <div className="input-group">
@@ -82,6 +86,7 @@ const Register = () => {
               type="text"
               value={position}
               onChange={(e) => setPosition(e.target.value)}
+              style={{ width: "400px", fontSize: "16px" }}
               required
             />
           </div>
@@ -91,10 +96,11 @@ const Register = () => {
               type="text"
               value={department}
               onChange={(e) => setDepartment(e.target.value)}
+              style={{ width: "400px", fontSize: "16px" }}
               required
             />
           </div>
-          <button className="login-btn" type="submit">Register</button>
+          <button className="login-btn" type="submit"  style={{ width: "430px", fontSize: "16px" }}>Register</button>
         </form>
         <p className="sign-up-link">
           Already have an account? <a href="/login">Login</a>

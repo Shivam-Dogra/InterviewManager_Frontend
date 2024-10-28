@@ -6,10 +6,10 @@ const Sidebar = () => {
   return (
     <aside className="sidebar">
       <ul>
-        <li><Link to="/">Dashboard</Link></li>
-        <li><Link to="/schedule">Schedule Interview</Link></li>
-        <li><Link to="/past-interviews">Past Interviews</Link></li>
-        <li><Link to="/analytics">Analytics</Link></li>
+        <li><Link to="/">🏠 Dashboard </Link></li>
+        <li><Link to="/schedule">📝 Schedule Interview</Link></li>
+        <li><Link to="/past">🕒 Past Interviews</Link></li>
+        <li><Link to="/analytics">📈 Analytics</Link></li>
       </ul>
     </aside>
   );

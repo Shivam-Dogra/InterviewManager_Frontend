@@ -43,9 +43,14 @@ const ScheduleInterview = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const token = localStorage.getItem('token'); // Get the token from local storage
     try {
-      // Send the form data
-      const response = await axios.post('http://localhost:3000/api/interview/schedule', formData);
+      // Send the form data with the Authorization header
+      const response = await axios.post('http://localhost:3000/api/interview/schedule', formData, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Add the Authorization header
+        },
+      });
       alert('Interview Scheduled Successfully!');
       console.log('Response:', response.data);
     } catch (error) {
@@ -53,7 +58,7 @@ const ScheduleInterview = () => {
       console.error('Error:', error.response ? error.response.data : error.message);
     }
   };
-
+  
   return (
     <div className="dashboard-container">
       {/* Top Navbar */}
@@ -66,8 +71,7 @@ const ScheduleInterview = () => {
 
         {/* Main Content Area */}
         <div className="content-area">
-          <h3>Schedule Interview</h3>
-          <h3>Give Interview details for people to Sign up!</h3>
+          <h3>🗓️ Schedule your interview with ease!</h3>
 
           {/* Schedule Interview Form */}
           <form className="schedule-form" onSubmit={handleSubmit}>
@@ -155,7 +159,7 @@ const ScheduleInterview = () => {
                 name="time"
                 value={formData.time}
                 onChange={handleChange}
-                
+                required
               />
             </div>
 

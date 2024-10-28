@@ -18,7 +18,10 @@ const Login = () => {
         password,
       });
       alert('Login Successful!');
-      console.log(response.data);
+      
+      const { token, user } = response.data;
+      localStorage.setItem('token', token);
+      localStorage.setItem('username', user.name);
       navigate('/'); 
 
     } catch (error) {
@@ -39,6 +42,7 @@ const Login = () => {
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              style={{ width: "400px", fontSize: "16px"}}
               required
             />
           </div>
@@ -48,10 +52,11 @@ const Login = () => {
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
+              style={{ width: "400px", fontSize: "16px" }}
               required
             />
           </div>
-          <button className="login-btn" type="submit">Login</button>
+          <button className="login-btn" type="submit"  style={{ width: "430px", fontSize: "16px" }}>Login</button>
         </form>
         <p className="sign-up-link">
           Don’t have an account? <a href="/register">Sign up</a>
