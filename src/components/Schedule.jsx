@@ -4,8 +4,9 @@ import Sidebar from './Slidebar';
 import '../App.css';
 import axios from 'axios';
 
+
+
 const ScheduleInterview = () => {
-  // State for form fields
   const [formData, setFormData] = useState({
     title: '',
     interviewerName: '',
@@ -18,37 +19,32 @@ const ScheduleInterview = () => {
     notes: '',
     department: '',
     signedUp: '',
-    completionStatus: false
   });
 
-  // Handle form input changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
   };
 
-  // Handle intervieweesName input change (comma-separated to array)
   const handleIntervieweesNameChange = (e) => {
     const value = e.target.value;
-    const intervieweesArray = value.split(',').map(name => name.trim()); // Convert to array of strings
+    const intervieweesArray = value.split(',').map((name) => name.trim());
     setFormData({
       ...formData,
-      intervieweesName: intervieweesArray
+      intervieweesName: intervieweesArray,
     });
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const token = localStorage.getItem('token'); // Get the token from local storage
+    const token = localStorage.getItem('token');
     try {
-      // Send the form data with the Authorization header
       const response = await axios.post('http://localhost:3000/api/interview/schedule', formData, {
         headers: {
-          Authorization: `Bearer ${token}`, // Add the Authorization header
+          Authorization: `Bearer ${token}`,
         },
       });
       alert('Interview Scheduled Successfully!');
@@ -58,11 +54,13 @@ const ScheduleInterview = () => {
       console.error('Error:', error.response ? error.response.data : error.message);
     }
   };
-  
+
   return (
-    <div className="dashboard-container">
+        <div className="dashboard-container">
       {/* Top Navbar */}
+        <div className="app-header">
       <TopNavbar />
+      </div>
 
       {/* Sidebar and Content */}
       <div className="main-content">
@@ -71,144 +69,173 @@ const ScheduleInterview = () => {
 
         {/* Main Content Area */}
         <div className="content-area">
-          <h3>🗓️ Schedule your interview with ease!</h3>
+         <div className="flex justify-center items-center  h-screen">
+      <div className="container mx-auto my-4 px-4 lg:px-20">
+        {/* Left Section (Form) */}
+        <div className="w-full p-8 my-4 md:px-12 lg:w-9/12 lg:pl-20 lg:pr-40 mr-auto rounded-2xl shadow-2xl bg-white">
+          <div className="flex">
+            <h1 className="font-bold uppercase text-5xl text-black">Schedule an Interview</h1>
+          </div>
+          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 mt-5">
+            <input
+              className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+              type="text"
+              name="title"
+              value={formData.title}
+              onChange={handleChange}
+              placeholder="Interview Title*"
+              required
+            />
 
-          {/* Schedule Interview Form */}
-          <form className="schedule-form" onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label htmlFor="title">Interview Title</label>
-              <input
-                type="text"
-                name="title"
-                value={formData.title}
-                onChange={handleChange}
-                required
-              />
-            </div>
+            <input
+              className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+              type="text"
+              name="interviewerName"
+              value={formData.interviewerName}
+              onChange={handleChange}
+              placeholder="Candidate Name*"
+              required
+            />
 
-            <div className="form-group">
-              <label htmlFor="interviewerName">Candidate Name</label>
-              <input
-                type="text"
-                name="interviewerName"
-                value={formData.interviewerName}
-                onChange={handleChange}
-                required
-              />
-            </div>
+            <input
+              className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+              type="email"
+              name="interviewerEmail"
+              value={formData.interviewerEmail}
+              onChange={handleChange}
+              placeholder="Candidate Email*"
+              required
+            />
 
-            <div className="form-group">
-              <label htmlFor="interviewerEmail">Candidate Email</label>
-              <input
-                type="email"
-                name="interviewerEmail"
-                value={formData.interviewerEmail}
-                onChange={handleChange}
-                required
-              />
-            </div>
+            <input
+              className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+              type="text"
+              name="intervieweesName"
+              value={formData.intervieweesName.join(', ')}
+              onChange={handleIntervieweesNameChange}
+              placeholder="Interviewer(s)*"
+              required
+            />
 
-            <div className="form-group">
-              <label htmlFor="intervieweesName">Interviewer </label>
-              <input
-                type="text"
-                name="intervieweesName"
-                value={formData.intervieweesName.join(', ')} // Display as comma-separated string
-                onChange={handleIntervieweesNameChange}
-                
-              />
-            </div>
+            <input
+              className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+              type="text"
+              name="skillset"
+              value={formData.skillset}
+              onChange={handleChange}
+              placeholder="Skillset (e.g., JavaScript, React)*"
+              required
+            />
 
-            <div className="form-group">
-              <label htmlFor="skillset">Skillset </label>
-              <input
-                type="text"
-                name="skillset"
-                value={formData.skillset}
-                onChange={handleChange}
-                placeholder="e.g., JavaScript, React"
-              />
-            </div>
+            <input
+              className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+              type="number"
+              name="duration"
+              value={formData.duration}
+              onChange={handleChange}
+              placeholder="Duration (in minutes)*"
+              required
+            />
 
-            <div className="form-group">
-              <label htmlFor="duration">Duration (in minutes)</label>
-              <input
-                type="number"
-                name="duration"
-                value={formData.duration}
-                onChange={handleChange}
-                
-              />
-            </div>
+            <input
+              className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+              type="date"
+              name="date"
+              value={formData.date}
+              onChange={handleChange}
+              placeholder="Interview Date*"
+              required
+            />
 
-            <div className="form-group">
-              <label htmlFor="date">Interview Date</label>
-              <input
-                type="date"
-                name="date"
-                value={formData.date}
-                onChange={handleChange}
-                required
-              />
-            </div>
+            <input
+              className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+              type="time"
+              name="time"
+              value={formData.time}
+              onChange={handleChange}
+              placeholder="Interview Time*"
+              required
+            />
 
-            <div className="form-group">
-              <label htmlFor="time">Interview Time</label>
-              <input
-                type="time"
-                name="time"
-                value={formData.time}
-                onChange={handleChange}
-                required
-              />
-            </div>
+            <input
+              className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+              type="text"
+              name="department"
+              value={formData.department}
+              onChange={handleChange}
+              placeholder="Department*"
+              required
+            />
 
-            <div className="form-group">
-              <label htmlFor="notes">Additional Notes</label>
-              <textarea
-                name="notes"
-                value={formData.notes}
-                onChange={handleChange}
-                placeholder="Any special instructions?"
-              />
-            </div>
+            <select
+              className="w-full bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+              name="signedUp"
+              value={formData.signedUp}
+              onChange={handleChange}
+              required
+            >
+              <option value="">Anyone Signed Up?</option>
+              <option value="yes">Yes</option>
+              <option value="no">No</option>
+            </select>
+          </div>
 
-            <div className="form-group">
-              <label htmlFor="department">Department</label>
-              <input
-                type="text"
-                name="department"
-                value={formData.department}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            
-            <div className="form-group">
-              <label htmlFor="signedUp">Anyone Signed Up for this interview?</label>
-              <select
-                name="signedUp"
-                value={formData.signedUp}
-                onChange={handleChange}
-                required
-                style={{
-                  fontSize: '1rem',    
-                  padding: '6px',       
-                  borderRadius: '5px'   
-                }}
-              >
-                <option value="">Select an option</option>
-                <option value="yes">Yes</option>
-                <option value="no">No</option>
-              </select>
-            </div>
+          <div className="my-4">
+            <textarea
+              placeholder="Additional Notes"
+              className="w-full h-32 bg-gray-100 text-gray-900 mt-2 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+              name="notes"
+              value={formData.notes}
+              onChange={handleChange}
+            ></textarea>
+          </div>
+          <div className="my-2 w-1/2 lg:w-1/4">
+            <button
+              onClick={handleSubmit}
+              className="uppercase text-sm font-bold tracking-wide bg-blue-900 text-gray-100 p-3 rounded-lg w-full focus:outline-none focus:shadow-outline"
+            >
+              Schedule Interview
+            </button>
+          </div>
+        </div>
 
+        {/* Right Section (Sidebar) */}
+   <div className="w-full lg:-mt-96 lg:w-2/6 px-8 py-12 ml-auto bg-blue-900 rounded-2xl">
+  <div className="flex flex-col text-white">
+    <h1 className="font-bold uppercase text-4xl my-4">Help in Scheduling</h1>
+    <p className="text-gray-400">
+      To arrange an interview or for further assistance, please contact our scheduling team at our office or by phone.
+    </p>
 
-            <button type="submit" className="submit-btn">Schedule Interview</button>
-          </form>
+    <div className="flex my-4 w-2/3 lg:w-1/2">
+      <div className="flex flex-col">
+        <i className="fas fa-map-marker-alt pt-2 pr-2"></i>
+      </div>
+      <div className="flex flex-col">
+        <h2 className="text-2xl">Scheduling Office</h2>
+        <p className="text-gray-400">1234 Interview St, Interview City, IC 12345</p>
+      </div>
+    </div>
+
+    <div className="flex my-4 w-2/3 lg:w-1/2">
+      <div className="flex flex-col">
+        <i className="fas fa-phone-alt pt-2 pr-2"></i>
+      </div>
+      <div className="flex flex-col">
+        <h2 className="text-2xl">Contact Us</h2>
+        <p className="text-gray-400">Tel: 111-222-3333</p>
+        <p className="text-gray-400">Fax: 111-222-3334</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+      </div>
+    </div>
         </div>
       </div>
     </div>
+  
   );
 };
 
