@@ -110,8 +110,10 @@ const Dashboard = () => {
           skillset: interview.skillset,
           time: interview.time,
           duration: interview.duration,
+          interviewerName: interview.interviewerName, // Added interviewerName field
           _id: interview._id,
         }));
+        
 
         setProjectData(transformedData);
       } catch (error) {
@@ -233,6 +235,21 @@ const ProjectBox = ({ project, index, handleDelete }) => {
 
   const handleSave = async (updatedFormData) => {
     const token = localStorage.getItem('token');
+
+    // Filter out fields that are not part of the schema
+  const validFields = {
+    title: updatedFormData.name, // Map back to schema field
+    interviewerName: updatedFormData.interviewerName,
+    skillset: updatedFormData.skillset,
+    duration: updatedFormData.duration,
+    date: updatedFormData.date,
+    time: updatedFormData.time,
+    notes: updatedFormData.notes,
+    department: updatedFormData.department,
+    intervieweesName: updatedFormData.participants, // Match schema field
+  };
+
+
     try {
       const response = await axios.put(`http://localhost:3000/api/interview/update/${updatedFormData._id}`, updatedFormData, {
         headers: { Authorization: `Bearer ${token}` },
@@ -258,29 +275,49 @@ const ProjectBox = ({ project, index, handleDelete }) => {
           <p className="box-content-header">{project.name}</p>
           <p className="box-content-subheader">{project.type}</p>
         </div>
-        <div className="skillset-container">
-          {project.skillset && project.skillset.length > 0 && project.skillset[0].split(',').map((skill, idx) => (
-            <div key={idx} className="skillset-box">{skill.trim()}</div>
-          ))}
-        </div>
+        <div className="skillset-container flex flex-wrap gap-2 mt-2">
+  {project.skillset &&
+    project.skillset
+      .join(',')
+      .split(',')
+      .map((skill, idx) => (
+        <span
+          key={idx}
+          className="px-2 py-2 mb-3 rounded-full bg-yellow-600 text-white text-sm font-semibold shadow-lg hover:bg-yellow-900 transition-transform transform hover:scale-105"
+        >
+          {skill.trim()}
+        </span>
+      ))}
+</div>
+
         <div className="project-box-footer">
           <div className="days-left" style={{ color: project.progressColor }}>
             {project.daysLeft} Days Left
           </div>
           <div className="participants">
-          {project.participants && project.participants.map((name, idx) => {
-  // Check if name is not undefined or null
-  if (name) {
-    const initials = name.split(' ').map(word => word[0].toUpperCase()).join('');
-    return (
-      <div key={idx} className="participant-avatar">
-        <span className="initials">{initials}</span>
-      </div>
-    );
-  } else {
-    return null;  // Return nothing if name is undefined or null
-  }
-})}
+          {Array.isArray(project.interviewerName)
+    ? project.interviewerName.map((name, idx) => {
+        if (name) {
+          const initials = name.split(' ').map(word => word[0].toUpperCase()).join('');
+          return (
+            <div key={idx} className="participant-avatar">
+              <span className="initials">{initials}</span>
+            </div>
+          );
+        } else {
+          return null;
+        }
+      })
+    : project.interviewerName && (
+        <div className="participant-avatar">
+          <span className="initials">
+            {project.interviewerName
+              .split(' ')
+              .map(word => word[0].toUpperCase())
+              .join('')}
+          </span>
+        </div>
+      )}
             <div style={{ position: 'relative', display: 'inline-block' }}>
               <button
                 className="add-participant"
@@ -333,52 +370,52 @@ const ProjectBox = ({ project, index, handleDelete }) => {
 
 const ViewPopup = ({ project, onClose }) => {
   return (
-    <div className="fixed inset-0 flex items-center justify-center bg-white bg-opacity-70 z-50">
+    <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75 z-50">
       <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 relative">
         <button
-          className="absolute top-3 right-3 text-red-500 hover:text-red-700 text-xl font-bold focus:outline-none transition transform hover:scale-110"
+          className="absolute top-3 right-3 text-red-600 hover:text-red-800 text-xl font-bold focus:outline-none transition transform hover:scale-110"
           onClick={onClose}
         >
           &times;
         </button>
-        <h2 className="text-3xl font-bold text-purple-700 mb-6 text-center">{project.name}</h2>
+        <h2 className="text-3xl font-bold text-indigo-600 mb-6 text-center">{project.name}</h2>
 
-        <div className="flex flex-col mb-5 space-y-2">
-          <p className="text-lg font-medium text-gray-700">
-            <span className="font-semibold text-blue-600">Type:</span> {project.type}
+        {/* Interview Details Section */}
+        <div className="flex flex-col mb-5 space-y-3">
+          <p className="text-lg font-medium text-gray-800">
+            <span className="font-semibold text-indigo-600">Type:</span> {project.type}
           </p>
-          <p className="text-lg font-medium text-gray-700">
-            <span className="font-semibold text-blue-600">Date:</span> {project.date}
+          <p className="text-lg font-medium text-gray-800">
+            <span className="font-semibold text-indigo-600">Date:</span> {project.date}
           </p>
-          <p className="text-lg font-medium text-gray-700">
-            <span className="font-semibold text-blue-600">Time:</span> {project.time}
+          <p className="text-lg font-medium text-gray-800">
+            <span className="font-semibold text-indigo-600">Time:</span> {project.time}
           </p>
         </div>
 
+        {/* Interview Progress and Days Left */}
         <div className="flex items-center justify-between mb-6">
-          <p className="text-lg font-medium text-gray-700">
-            <span className="font-semibold text-purple-600">Progress:</span>{" "}
-            <span
-              className="font-bold"
-              style={{ color: project.progressColor }}
-            >
+          <p className="text-lg font-medium text-gray-800">
+            <span className="font-semibold text-indigo-600">Progress:</span>{" "}
+            <span className="font-bold" style={{ color: project.progressColor }}>
               {project.progress}%
             </span>
           </p>
-          <p className="text-lg font-medium text-gray-700">
-            <span className="font-semibold text-purple-600">Days Left:</span>{" "}
+          <p className="text-lg font-medium text-gray-800">
+            <span className="font-semibold text-indigo-600">Days Left:</span>{" "}
             {project.daysLeft}
           </p>
         </div>
 
+        {/* Skillset Section */}
         <div className="mb-5">
-          <h3 className="text-lg font-semibold text-purple-700 mb-2">Skillset:</h3>
+          <h3 className="text-lg font-semibold text-indigo-600 mb-2">Skillset:</h3>
           <div className="flex flex-wrap gap-3">
             {project.skillset &&
-              project.skillset[0].split(",").map((skill, idx) => (
+              project.skillset.map((skill, idx) => (
                 <span
                   key={idx}
-                  className="px-4 py-2 rounded-full bg-green-400 text-white text-sm font-semibold shadow-md"
+                  className="px-4 py-2 rounded-full bg-indigo-600 text-white text-sm font-semibold shadow-md"
                 >
                   {skill.trim()}
                 </span>
@@ -386,16 +423,29 @@ const ViewPopup = ({ project, onClose }) => {
           </div>
         </div>
 
-        <div>
-          <h3 className="text-lg font-semibold text-purple-700 mb-2">Participants:</h3>
+        {/* Participants Section */}
+        <div className="mb-5">
+          <h3 className="text-lg font-semibold text-indigo-600 mb-2">Interviewer:</h3>
           <div className="flex flex-wrap gap-3">
-            {project.participants &&
-              project.participants[0].split(",").map((name, idx) => (
+            <span
+              className="px-4 py-2 rounded-full bg-indigo-600 text-white text-sm font-semibold shadow-md"
+            >
+              {project.interviewerName}
+            </span>
+          </div>
+        </div>
+
+        {/* Candidate Section */}
+        <div>
+          <h3 className="text-lg font-semibold text-indigo-600 mb-2">Candidates:</h3>
+          <div className="flex flex-wrap gap-3">
+            {project.intervieweesName &&
+              project.intervieweesName.map((candidate, idx) => (
                 <span
                   key={idx}
-                  className="px-4 py-2 rounded-full bg-yellow-400 text-gray-900 text-sm font-semibold shadow-md"
+                  className="px-4 py-2 rounded-full bg-indigo-600 text-white text-sm font-semibold shadow-md"
                 >
-                  {name.trim()}
+                  {candidate.trim()}
                 </span>
               ))}
           </div>
@@ -404,6 +454,7 @@ const ViewPopup = ({ project, onClose }) => {
     </div>
   );
 };
+
 
 
 const EditFormPopup = ({ formData, handleSave, onClose }) => {
@@ -460,7 +511,7 @@ const EditFormPopup = ({ formData, handleSave, onClose }) => {
           </div>
 
           <div className="bg-gray-50 p-4 rounded-lg shadow-inner">
-            <label className="block text-sm font-semibold text-gray-700">Interviewer</label>
+            <label className="block text-sm font-semibold text-gray-700">Candidate Name</label>
             <input
               type="text"
               value={intervieweesName}

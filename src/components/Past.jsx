@@ -345,11 +345,20 @@ const ProjectBox = ({ project, index }) => {
           <p className="box-content-header">{project.name}</p>
           <p className="box-content-subheader">{project.type}</p>
         </div>
-        <div className="skillset-container">
-          {project.skillset && project.skillset.length > 0 && project.skillset[0].split(',').map((skill, idx) => (
-            <div key={idx} className="skillset-box">{skill.trim()}</div>
-          ))}
-        </div>
+        <div className="skillset-container flex flex-wrap gap-2 mt-2">
+  {project.skillset &&
+    project.skillset
+      .join(',')
+      .split(',')
+      .map((skill, idx) => (
+        <span
+          key={idx}
+          className="px-2 py-2 mb-2 rounded-full bg-yellow-600 text-white text-sm font-semibold shadow-lg hover:bg-yellow-900 transition-transform transform hover:scale-105"
+        >
+          {skill.trim()}
+        </span>
+      ))}
+</div>
         <div className="project-box-footer">
           <div className="days-left" style={{ color: project.progressColor }}>
             {project.daysLeft} Days Left
@@ -422,23 +431,23 @@ const ViewPopup = ({ project, onClose }) => {
         >
           &times;
         </button>
-        <h2 className="text-3xl font-bold text-purple-700 mb-6 text-center">{project.name}</h2>
+        <h2 className="text-3xl font-bold text-indigo-700 mb-6 text-center">{project.name}</h2>
 
         <div className="flex flex-col mb-5 space-y-2">
           <p className="text-lg font-medium text-gray-700">
-            <span className="font-semibold text-blue-600">Type:</span> {project.type}
+            <span className="font-semibold text-indigo-600">Type:</span> {project.type}
           </p>
           <p className="text-lg font-medium text-gray-700">
-            <span className="font-semibold text-blue-600">Date:</span> {project.date}
+            <span className="font-semibold text-indigo-600">Date:</span> {project.date}
           </p>
           <p className="text-lg font-medium text-gray-700">
-            <span className="font-semibold text-blue-600">Time:</span> {project.time}
+            <span className="font-semibold text-indigo-600">Time:</span> {project.time}
           </p>
         </div>
 
         <div className="flex items-center justify-between mb-6">
           <p className="text-lg font-medium text-gray-700">
-            <span className="font-semibold text-purple-600">Progress:</span>{" "}
+            <span className="font-semibold text-indigo-600">Progress:</span>{" "}
             <span
               className="font-bold"
               style={{ color: project.progressColor }}
@@ -447,19 +456,19 @@ const ViewPopup = ({ project, onClose }) => {
             </span>
           </p>
           <p className="text-lg font-medium text-gray-700">
-            <span className="font-semibold text-purple-600">Days Left:</span>{" "}
+            <span className="font-semibold text-indigo-600">Days Left:</span>{" "}
             {project.daysLeft}
           </p>
         </div>
 
         <div className="mb-5">
-          <h3 className="text-lg font-semibold text-purple-700 mb-2">Skillset:</h3>
+          <h3 className="text-lg font-semibold text-indigo-700 mb-2">Skillset:</h3>
           <div className="flex flex-wrap gap-3">
             {project.skillset &&
               project.skillset[0].split(",").map((skill, idx) => (
                 <span
                   key={idx}
-                  className="px-4 py-2 rounded-full bg-green-400 text-white text-sm font-semibold shadow-md"
+                  className="px-4 py-2 rounded-full bg-indigo-600 text-white text-sm font-semibold shadow-md"
                 >
                   {skill.trim()}
                 </span>
@@ -468,13 +477,13 @@ const ViewPopup = ({ project, onClose }) => {
         </div>
 
         <div>
-          <h3 className="text-lg font-semibold text-purple-700 mb-2">Participants:</h3>
+          <h3 className="text-lg font-semibold text-indigo-700 mb-2">Participants:</h3>
           <div className="flex flex-wrap gap-3">
             {project.participants &&
               project.participants[0].split(",").map((name, idx) => (
                 <span
                   key={idx}
-                  className="px-4 py-2 rounded-full bg-yellow-400 text-gray-900 text-sm font-semibold shadow-md"
+                  className="px-4 py-2 rounded-full bg-indigo-600 text-white text-sm font-semibold shadow-md"
                 >
                   {name.trim()}
                 </span>

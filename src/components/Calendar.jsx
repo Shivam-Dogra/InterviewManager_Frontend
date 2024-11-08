@@ -111,20 +111,97 @@ const CustomCalendar = () => {
           }}
         />
         {selectedEvent && (
-  <div className="modal">
-    <div className="modal-content">
-      <h2 style={{ fontWeight: 'bold' }}>{selectedEvent.title}</h2>
-      <p >Signed Up: {selectedEvent.signedUp ? 'Yes' : 'No'}</p>
-      <p >Interviewer: {selectedEvent.interviewerName}</p>
-      <p >Candidate(s): {selectedEvent.intervieweesName}</p>
-      <p >Skills Required: {selectedEvent.skillset}</p>
-      <p >Duration: {selectedEvent.duration} minutes</p>
-      <p >Time: {selectedEvent.time}</p>
-      <p >Department: {selectedEvent.department}</p>
-      <p >Notes: {selectedEvent.notes || "No additional notes"}</p>
-      <button onClick={closeModal}>Close</button>
-    </div>
-  </div>
+ <div className="modal">
+ <div className="modal-content">
+   <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75 z-50">
+     <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 relative">
+      
+       <h2 className="text-3xl font-bold text-indigo-600 mb-6 text-center">
+         {selectedEvent.title}
+       </h2>
+
+       {/* Signed Up Status */}
+       <p className="text-lg font-medium text-gray-800 text-center">
+         <span className="font-semibold text-indigo-600">Signed Up:</span>{" "}
+         {selectedEvent.signedUp ? "Yes" : "No"}
+       </p>
+
+       {/* Interviewer */}
+       <div className="mb-5 text-center">
+         <h3 className="text-lg font-semibold text-indigo-600 mb-2">Interviewer:</h3>
+         <div className="flex justify-center flex-wrap gap-3">
+           <span className="px-4 py-2 rounded-full bg-indigo-600 text-white text-sm font-semibold shadow-md">
+             {selectedEvent.interviewerName}
+           </span>
+         </div>
+       </div>
+
+       {/* Candidates */}
+       <div className="mb-5 text-center">
+         <h3 className="text-lg font-semibold text-indigo-600 mb-2">Candidate(s):</h3>
+         <div className="flex justify-center flex-wrap gap-3">
+           {selectedEvent.intervieweesName.split(",").map((candidate, idx) => (
+             <span
+               key={idx}
+               className="px-4 py-2 rounded-full bg-indigo-600 text-white text-sm font-semibold shadow-md"
+             >
+               {candidate.trim()}
+             </span>
+           ))}
+         </div>
+       </div>
+
+       {/* Skills */}
+       <div className="mb-5 text-center">
+         <h3 className="text-lg font-semibold text-indigo-600 mb-2">Skills Required:</h3>
+         <div className="flex justify-center flex-wrap gap-3">
+           {selectedEvent.skillset.split(",").map((skill, idx) => (
+             <span
+               key={idx}
+               className="px-4 py-2 rounded-full bg-indigo-600 text-white text-sm font-semibold shadow-md"
+             >
+               {skill.trim()}
+             </span>
+           ))}
+         </div>
+       </div>
+
+       {/* Duration */}
+       <p className="text-lg font-medium text-gray-800 text-center">
+         <span className="font-semibold text-indigo-600">Duration:</span>{" "}
+         {selectedEvent.duration} minutes
+       </p>
+
+       {/* Time */}
+       <p className="text-lg font-medium text-gray-800 text-center">
+         <span className="font-semibold text-indigo-600">Time:</span>{" "}
+         {selectedEvent.time}
+       </p>
+
+       {/* Department */}
+       <p className="text-lg font-medium text-gray-800 text-center">
+         <span className="font-semibold text-indigo-600">Department:</span>{" "}
+         {selectedEvent.department}
+       </p>
+
+       {/* Notes */}
+       <p className="text-lg font-medium text-gray-800 text-center">
+         <span className="font-semibold text-indigo-600">Notes:</span>{" "}
+         {selectedEvent.notes || "No additional notes"}
+       </p>
+       <button
+          onClick={closeModal}
+          className="w-full mt-8 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg shadow-lg transition duration-200 transform hover:scale-105"
+        >
+          Close
+        </button>
+     </div>
+     
+   </div>
+ </div>
+</div>
+
+
 )}
 
       </div>

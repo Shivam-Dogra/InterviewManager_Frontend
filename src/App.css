@@ -1791,7 +1791,6 @@ a {
 .rbc-btn-group button {
   background-color: #4f514f !important; /* Change background color */
   color: white !important; /* Change text color */
-  border: 1px solid #ead110 !important; /* Border color */
   font-weight: bold; /* Make text bold */
   padding: 8px 16px;
   border-radius: 4px;
@@ -1800,7 +1799,7 @@ a {
 
 /* Hover effect */
 .rbc-btn-group button:hover {
-  background-color: #388E3C !important; /* Darker green on hover */
+  background-color: black !important; /* Darker green on hover */
   color: #FFF !important; /* Change text color on hover */
 }
 
@@ -1915,4 +1914,10 @@ a {
 .rbc-today {
   background-color: #e3f2fd !important;
   border: 1.5px solid #2196f3;
+}
+
+.skillset-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px; /* Adjust spacing between skills */
 }
