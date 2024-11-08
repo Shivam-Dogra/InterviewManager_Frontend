@@ -72,15 +72,6 @@ const Register = () => {
             />
           </div>
           <div className="input-group">
-            <label>Profile Picture URL</label>
-            <input
-              type="text"
-              value={picture}
-              onChange={(e) => setPicture(e.target.value)}
-              style={{ width: "400px", fontSize: "16px" }}
-            />
-          </div>
-          <div className="input-group">
             <label>Position</label>
             <input
               type="text"

@@ -356,12 +356,17 @@ const ProjectBox = ({ project, index }) => {
           </div>
           <div className="participants">
             {project.participants && project.participants.map((name, idx) => {
-              const initials = name.split(' ').map(word => word[0].toUpperCase()).join('');
-              return (
-                <div key={idx} className="participant-avatar">
-                  <span className="initials">{initials}</span>
-                </div>
-              );
+              // Check if name is not undefined or null
+  if (name) {
+    const initials = name.split(' ').map(word => word[0].toUpperCase()).join('');
+    return (
+      <div key={idx} className="participant-avatar">
+        <span className="initials">{initials}</span>
+      </div>
+    );
+  } else {
+    return null;  // Return nothing if name is undefined or null
+  }
             })}
             <div style={{ position: 'relative', display: 'inline-block' }}>
               <button

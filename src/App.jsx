@@ -5,6 +5,7 @@ import Dashboard from './components/Dashboard';
 import Schedule from './components/Schedule';
 import Past from './components/Past';
 import InterviewAnalytics from './components/InterviewAnalytics';
+import Calendar from './components/Calendar'
 
 function App() {
   return (
@@ -17,6 +18,7 @@ function App() {
           <Route path="/schedule" element={<Schedule />} />
           <Route path="/past" element={<Past />} />
           <Route path="/analytics" element={<InterviewAnalytics />} />
+          <Route path="/calendar" element={<Calendar />} />
         </Routes>
       </div>
     </Router>

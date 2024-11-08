@@ -268,14 +268,19 @@ const ProjectBox = ({ project, index, handleDelete }) => {
             {project.daysLeft} Days Left
           </div>
           <div className="participants">
-            {project.participants && project.participants.map((name, idx) => {
-              const initials = name.split(' ').map(word => word[0].toUpperCase()).join('');
-              return (
-                <div key={idx} className="participant-avatar">
-                  <span className="initials">{initials}</span>
-                </div>
-              );
-            })}
+          {project.participants && project.participants.map((name, idx) => {
+  // Check if name is not undefined or null
+  if (name) {
+    const initials = name.split(' ').map(word => word[0].toUpperCase()).join('');
+    return (
+      <div key={idx} className="participant-avatar">
+        <span className="initials">{initials}</span>
+      </div>
+    );
+  } else {
+    return null;  // Return nothing if name is undefined or null
+  }
+})}
             <div style={{ position: 'relative', display: 'inline-block' }}>
               <button
                 className="add-participant"
@@ -411,6 +416,8 @@ const EditFormPopup = ({ formData, handleSave, onClose }) => {
   const [notes, setNotes] = useState(formData.notes || '');
   const [department, setDepartment] = useState(formData.department || '');
   const [signedUp, setSignedUp] = useState(formData.signedUp || '');
+  const [interviewerName, setInterviewerName] = useState(formData.interviewerName || '');
+
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
@@ -425,6 +432,7 @@ const EditFormPopup = ({ formData, handleSave, onClose }) => {
       notes,
       department,
       signedUp,
+      interviewerName,
     };
     handleSave(updatedFormData);
   };
@@ -460,6 +468,17 @@ const EditFormPopup = ({ formData, handleSave, onClose }) => {
               className="mt-2 w-full rounded-md border border-gray-300 p-3 focus:border-blue-500 focus:ring-blue-500 text-gray-700"
             />
           </div>
+
+          <div className="bg-gray-50 p-4 rounded-lg shadow-inner">
+  <label className="block text-sm font-semibold text-gray-700">Interviewer Name</label>
+  <input
+    type="text"
+    value={interviewerName}
+    onChange={(e) => setInterviewerName(e.target.value)}
+    className="mt-2 w-full rounded-md border border-gray-300 p-3 focus:border-blue-500 focus:ring-blue-500 text-gray-700"
+  />
+</div>
+
 
           <div className="bg-gray-50 p-4 rounded-lg shadow-inner">
             <label className="block text-sm font-semibold text-gray-700">Skillset</label>
