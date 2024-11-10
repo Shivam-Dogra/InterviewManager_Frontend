@@ -2,15 +2,16 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import Sidebar from '../components/Slidebar';
 import TopNavbar from '../components/TopNavbar';
-import { Box, Typography, Grid, Card, Divider } from '@mui/material';
-
+import { PieChart, Pie, Cell, BarChart, Bar, LineChart, Line, XAxis, YAxis, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import { Box, Typography, CircularProgress } from '@mui/material';
+ 
+const colors = ['#4B0082', '#006400', '#2F4F4F', '#A52A2A', '#808080'];
+ 
 const InterviewAnalytics = () => {
     const [data, setData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
-    const colors = ['#fee4cb', '#e9e7fd', '#ffd3e2', '#c8f7dc', '#d5deff'];
-
+ 
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -27,234 +28,157 @@ const InterviewAnalytics = () => {
                 setLoading(false);
             }
         };
-
         fetchData();
     }, []);
-
+ 
     if (loading) {
-        return <Typography variant="h6" style={{ fontFamily: 'DM Sans, sans-serif' }}>Loading...</Typography>;
+        return <div className="flex justify-center items-center h-screen"><CircularProgress /></div>;
     }
-
+ 
     if (error) {
-        return <Typography variant="h6" color="error" style={{ fontFamily: 'DM Sans, sans-serif' }}>{error}</Typography>;
+        return <Typography variant="h6" color="error">{error}</Typography>;
     }
-
+ 
+    // Recharts compatible data
+    const departmentData = data.departmentCounts.map((dept, index) => ({
+        name: dept._id,
+        value: dept.count,
+        color: colors[index % colors.length]
+    }));
+ 
+    const skillData = data.skillCounts.map(skill => ({
+        name: skill._id,
+        count: skill.count
+    }));
+ 
+    const interviewTrendsData = data.topScheduledInterviews.map(interview => ({
+        date: interview._id,
+        count: interview.count
+    }));
+ 
     return (
-        <div className="dashboard-container" style={{ fontFamily: 'DM Sans, sans-serif' }}>
+        <div className="min-h-screen bg-gray-100">
             <TopNavbar />
-            <div className="main-content">
+            <div className="flex">
                 <Sidebar />
-                <div className="content-area" style={{ padding: '20px' }}>
-                    <Typography variant="h4" style={{
-                        color: '#3f51b5',
-                        fontFamily: 'DM Sans, sans-serif',
-                        marginBottom: '20px',
-                        fontWeight: 600
-                    }}>
-                        Analytics
-                    </Typography>
-
-                    <Grid container spacing={3}>
-                        <Grid item xs={12} sm={6} md={4}>
-                            <Card sx={{
-                                backgroundColor: colors[0],
-                                boxShadow: 3,
-                                padding: 2,
-                                borderRadius: '16px',
-                                transition: 'transform 0.3s ease',
-                                '&:hover': {
-                                    transform: 'translateY(-5px)',
-                                    boxShadow: 6,
-                                }
-                            }}>
-                                <Typography variant="h6" style={{
-                                    color: 'black',
-                                    fontFamily: 'DM Sans, sans-serif',
-                                    textAlign: 'center',
-                                    fontWeight: 600
-                                }}>
-                                    Total Interviews
-                                </Typography>
-                                <Divider />
-                                <Typography variant="h5" style={{
-                                    color: 'green',
-                                    textAlign: 'center',
-                                    fontFamily: 'DM Sans, sans-serif',
-                                    fontWeight: 500,
-                                }}>
-                                    {data.totalInterviews}
-                                </Typography>
-                                <Divider />
-                                <Typography variant="body1" style={{
-                                    color: 'black',
-                                    fontFamily: 'DM Sans, sans-serif',
-                                    fontSize: '1.2rem'
-                                }}>
-                                    Average Duration: <span style={{ color: 'blue' }}>{data.averageDuration} minutes</span>
-                                </Typography>
-                            </Card>
-                        </Grid>
-
-                        <Grid item xs={12} sm={6} md={4}>
-                            <Card sx={{
-                                backgroundColor: colors[1],
-                                boxShadow: 3,
-                                padding: 2,
-                                borderRadius: '16px',
-                                transition: 'transform 0.3s ease',
-                                '&:hover': {
-                                    transform: 'translateY(-5px)',
-                                    boxShadow: 6,
-                                }
-                            }}>
-                                <Typography variant="h6" style={{
-                                    color: 'black',
-                                    fontFamily: 'DM Sans, sans-serif',
-                                    textAlign: 'center',
-                                    fontWeight: 600,
-                                }}>
-                                    Department Counts
-                                </Typography>
-                                <Divider />
-                                <ul style={{
-                                    paddingLeft: '20px',
-                                    fontSize: '1rem',
-                                    fontFamily: 'DM Sans, sans-serif',
-                                    color: 'black',
-                                    paddingTop: '10px'
-                                }}>
-                                    {data.departmentCounts.map((dept, index) => (
-                                        <li key={index} style={{
-                                            color: 'black',
-                                            fontFamily: 'DM Sans, sans-serif',
-                                            fontSize: '1.2rem',
-                                        }}>
-                                            {`${dept._id} - ${dept.count}`}
-                                        </li>
+                <div className="flex-1 p-6 md:p-8">
+                    <h3 className="text-3xl font-bold text-indigo-600 mb-6">Interview Analytics</h3>
+ 
+                    <div className="grid grid-cols-7 grid-rows-7 gap-4">
+                        <div className="col-span-2">
+                            <div className="small-card">
+                                <h5 className="text-sm font-semibold text-gray-700">Total Interviews</h5>
+                                <p className="text-green-500 text-xl font-bold">{data.totalInterviews}</p>
+                            </div>
+                        </div>
+                        <div className="col-span-2 col-start-3">
+                            <div className="small-card">
+                                <h5 className="text-sm font-semibold text-gray-700">Average Duration</h5>
+                                <p className="text-blue-500 text-xl font-bold">{data.averageDuration.toFixed(2)} mins</p>
+                            </div>
+                        </div>
+                        <div className="col-span-4 row-span-3 col-start-1 row-start-2">
+                            <div className="card chart-card">
+                                <h5 className="text-lg font-semibold text-center mb-2 text-gray-700">Interview Trends</h5>
+                                <ResponsiveContainer width="100%" height={300}>
+                                    <LineChart data={interviewTrendsData}>
+                                        <XAxis dataKey="date" />
+                                        <YAxis />
+                                        <Tooltip />
+                                        <Legend />
+                                        <Line type="monotone" dataKey="count" stroke="#3f51b5" />
+                                    </LineChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </div>
+                        <div className="col-span-4 row-span-3 col-start-1 row-start-5">
+                            <div className="card chart-card">
+                                <h5 className="text-lg font-semibold text-center mb-2 text-gray-700">Department Counts</h5>
+                                <ResponsiveContainer width="100%" height={300}>
+                                    <PieChart>
+                                        <Pie data={departmentData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100}>
+                                            {departmentData.map((entry, index) => (
+                                                <Cell key={`cell-${index}`} fill={entry.color} />
+                                            ))}
+                                        </Pie>
+                                        <Tooltip />
+                                        <Legend />
+                                    </PieChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </div>
+                        <div className="col-span-3 row-span-3 col-start-5 row-start-5">
+                            <div className="card chart-card">
+                                <h5 className="text-lg font-semibold text-center mb-2 text-gray-700">Top 5 Skills Checked</h5>
+                                <ResponsiveContainer width="100%" height={300}>
+                                    <BarChart data={skillData} layout="vertical">
+                                        <XAxis type="number" />
+                                        <YAxis type="category" dataKey="name" />
+                                        <Tooltip />
+                                        <Legend />
+                                        <Bar dataKey="count" fill="#8884d8" />
+                                    </BarChart>
+                                </ResponsiveContainer>
+                            </div>
+                        </div>
+                        <div className="col-span-3 row-span-4 col-start-5 row-start-1">
+                            <div className="card lg-card text-center">
+                                <h5 className="text-lg font-semibold mb-2 text-gray-700">Interviewers</h5>
+                                <div className="interviewer-list grid grid-cols-2 gap-2 mt-2">
+                                    {data.interviewers.map((interviewer, index) => (
+                                        <span key={index} className="interviewer-name">
+                                            {interviewer}
+                                        </span>
                                     ))}
-                                </ul>
-                            </Card>
-                        </Grid>
-
-                        <Grid item xs={12} sm={6} md={4}>
-                            <Card sx={{
-                                backgroundColor: colors[2],
-                                boxShadow: 3,
-                                padding: 2,
-                                borderRadius: '16px',
-                                transition: 'transform 0.3s ease',
-                                '&:hover': {
-                                    transform: 'translateY(-5px)',
-                                    boxShadow: 6,
-                                }
-                            }}>
-                                <Typography variant="h6" style={{
-                                    color: 'black',
-                                    fontFamily: 'DM Sans, sans-serif',
-                                    textAlign: 'center',
-                                    fontWeight: 600
-                                }}>
-                                    Interview Champs
-                                </Typography>
-                                <Divider />
-                                <ul style={{
-                                    paddingLeft: '20px',
-                                    fontSize: '1rem',
-                                    fontFamily: 'DM Sans, sans-serif',
-                                    color: 'black',
-                                    paddingTop: '10px'
-                                }}>
-                                    {data.topInterviewers.map((interviewer, index) => (
-                                        <li key={index} style={{
-                                            fontFamily: 'DM Sans, sans-serif',
-                                            fontSize: '1.2rem'
-                                        }}>
-                                            {`${index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : ''} ${interviewer._id}: ${interviewer.count}`}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </Card>
-                        </Grid>
-
-                        <Grid item xs={12} sm={6} md={4}>
-                            <Card sx={{
-                                backgroundColor: colors[3],
-                                boxShadow: 3,
-                                padding: 2,
-                                borderRadius: '16px',
-                                transition: 'transform 0.3s ease',
-                                '&:hover': {
-                                    transform: 'translateY(-5px)',
-                                    boxShadow: 6,
-                                }
-                            }}>
-                                <Typography variant="h6" style={{
-                                    color: 'black',
-                                    fontFamily: 'DM Sans, sans-serif',
-                                    textAlign: 'center',
-                                    fontWeight: 600
-                                }}>
-                                    Top Scheduled Interviews
-                                </Typography>
-                                <Divider />
-                                <ul style={{
-                                    paddingLeft: '20px',
-                                    fontSize: '1.2rem',
-                                    fontFamily: 'DM Sans, sans-serif',
-                                    color: 'black',
-                                    paddingTop: '10px'
-                                }}>
-                                    {data.topScheduledInterviews.map((interview, index) => (
-                                        <li key={index}>{`${interview._id}: ${interview.count}`}</li>
-                                    ))}
-                                </ul>
-                            </Card>
-                        </Grid>
-
-                        <Grid item xs={12} sm={6} md={4}>
-                            <Card sx={{
-                                backgroundColor: colors[4],
-                                boxShadow: 3,
-                                padding: 2,
-                                borderRadius: '16px',
-                                transition: 'transform 0.3s ease',
-                                '&:hover': {
-                                    transform: 'translateY(-5px)',
-                                    boxShadow: 6,
-                                }
-                            }}>
-                                <Typography variant="h6" style={{
-                                    color: 'black',
-                                    fontFamily: 'DM Sans, sans-serif',
-                                    textAlign: 'center',
-                                    fontWeight: 600
-                                }}>
-                                    Top 5 Skills Checked
-                                </Typography>
-                                <Divider />
-                                <ul style={{
-                                    paddingLeft: '20px',
-                                    fontSize: '1rem',
-                                    fontFamily: 'DM Sans, sans-serif',
-                                    color: 'black',
-                                    paddingTop: '10px'
-                                }}>
-                                    {data.skillCounts.map((skill, index) => (
-                                        <li key={index} style={{
-                                            fontFamily: 'DM Sans, sans-serif',
-                                            fontSize: '1.2rem'
-                                        }}>
-                                            {`${skill._id} - ${skill.count}`}
-                                        </li>
-                                    ))}
-                                </ul>
-                            </Card>
-                        </Grid>
-                    </Grid>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
+ 
+            <style jsx>{`
+                .small-card {
+                    background-color: white;
+                    padding: 0.5rem;
+                    border-radius: 0.75rem;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                    border: 1px solid #e0e0e0;
+                    text-align: center;
+                    height: 100px;
+                }
+                .card {
+                    background-color: white;
+                    padding: 1.5rem;
+                    border-radius: 1rem;
+                    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                    border: 1px solid #e0e0e0;
+                }
+                .chart-card {
+                    height: 330px;
+                }
+                .lg-card {
+                    padding: 2rem;
+                }
+                .interviewer-list {
+                    display: grid;
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 0.5rem;
+                }
+                .interviewer-name {
+                    background-color: #f0f4f8;
+                    padding: 0.5rem;
+                    border-radius: 0.5rem;
+                    font-size: 0.875rem;
+                    font-weight: bold;
+                    color: #333;
+                    text-align: center;
+                }
+            `}</style>
         </div>
     );
 };
-
+ 
 export default InterviewAnalytics;
+ 
+ 
