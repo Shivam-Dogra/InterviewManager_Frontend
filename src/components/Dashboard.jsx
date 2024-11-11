@@ -46,6 +46,7 @@ const Dashboard = () => {
       modeSwitch.classList.toggle('active');
     };
 
+
     const activateListView = () => {
       gridView.classList.remove('active');
       listView.classList.add('active');
@@ -168,14 +169,20 @@ const Dashboard = () => {
               />
             </div>
             <div className="search-wrapper">
-              <input
-                type="text"
-                className="search-input"
-                placeholder="Filter by Department"
-                value={filters.department}
-                onChange={(e) => setFilters({ ...filters, department: e.target.value })}
-              />
-            </div>
+  <select
+    className="search-input"
+    value={filters.department}
+    onChange={(e) => setFilters({ ...filters, department: e.target.value })}
+  >
+    <option value="">Filter by Department</option>
+    <option value="Human Resources">Human Resources</option>
+    <option value="Information Technology">Information Technology</option>
+    <option value="Marketing">Marketing</option>
+    <option value="Accounts">Accounts</option>
+    <option value="Engineering">Engineering</option>
+  </select>
+</div>
+
             <div className="search-wrapper">
               <select
                 className="search-input"
@@ -202,8 +209,17 @@ const Dashboard = () => {
 };
 
 const ProjectBox = ({ project, index, handleDelete }) => {
-  const colors = ['#fee4cb', '#e9e7fd', '#ffd3e2', '#c8f7dc', '#d5deff'];
-  const backgroundColor = colors[index % colors.length];
+  const departmentColors = {
+    'Human Resources': 'var(--color-hr)',
+    'HR': 'var(--color-hr)',
+    'Information Technology': 'var(--color-informationtechnology)',
+    'IT': 'var(--color-informationtechnology)',
+    'Marketing': 'var(--color-marketing)',
+    'Accounts': 'var(--color-accounts)',
+    'Engineering': 'var(--color-engineering)',
+  };
+  
+  const backgroundColor = departmentColors[project.type || project.department] || '#ffffff'; // Fallback to white if unmatched
   const [showDropdown, setShowDropdown] = useState(false);
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [showViewPopup, setShowViewPopup] = useState(false);
@@ -283,7 +299,7 @@ const ProjectBox = ({ project, index, handleDelete }) => {
       .map((skill, idx) => (
         <span
           key={idx}
-          className="px-2 py-2 mb-3 rounded-full bg-yellow-600 text-white text-sm font-semibold shadow-lg hover:bg-yellow-900 transition-transform transform hover:scale-105"
+          className="px-2 py-2 mb-3 rounded-full bg-indigo-600 text-white text-sm font-semibold shadow-lg hover:bg-indigo-900 transition-transform transform hover:scale-105"
         >
           {skill.trim()}
         </span>
@@ -409,26 +425,28 @@ const ViewPopup = ({ project, onClose }) => {
 
         {/* Skillset Section */}
         <div className="mb-5">
-          <h3 className="text-lg font-semibold text-indigo-600 mb-2">Skillset:</h3>
-          <div className="flex flex-wrap gap-3">
-            {project.skillset &&
-              project.skillset.map((skill, idx) => (
-                <span
-                  key={idx}
-                  className="px-4 py-2 rounded-full bg-indigo-600 text-white text-sm font-semibold shadow-md"
-                >
-                  {skill.trim()}
-                </span>
-              ))}
-          </div>
-        </div>
+  <h3 className="text-lg font-semibold text-indigo-600 mb-2">Skillset:</h3>
+  <div className="flex flex-wrap gap-3">
+    {project.skillset &&
+      project.skillset
+        .flatMap(skill => skill.split(',').map(s => s.trim())) // Split and trim each skill
+        .map((skill, idx) => (
+          <span
+            key={idx}
+            className="px-4 py-2 rounded-full bg-indigo-600 text-white text-sm font-semibold shadow-md"
+          >
+            {skill}
+          </span>
+        ))}
+  </div>
+</div>
 
         {/* Participants Section */}
         <div className="mb-5">
           <h3 className="text-lg font-semibold text-indigo-600 mb-2">Interviewer:</h3>
           <div className="flex flex-wrap gap-3">
             <span
-              className="px-4 py-2 rounded-full bg-indigo-600 text-white text-sm font-semibold shadow-md"
+              className="text-indigo-900 font-medium"
             >
               {project.interviewerName}
             </span>
@@ -443,7 +461,7 @@ const ViewPopup = ({ project, onClose }) => {
               project.intervieweesName.map((candidate, idx) => (
                 <span
                   key={idx}
-                  className="px-4 py-2 rounded-full bg-indigo-600 text-white text-sm font-semibold shadow-md"
+                  className="text-indigo-900 font-medium"
                 >
                   {candidate.trim()}
                 </span>

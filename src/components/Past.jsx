@@ -253,13 +253,18 @@ const Past = () => {
           />
         </div>
         <div className="search-wrapper">
-          <input
-            type="text"
-            className="search-input"
-            placeholder="Filter by Department"
-            value={filters.department}
-            onChange={(e) => setFilters({ ...filters, department: e.target.value })}
-          />
+        <select
+    className="search-input"
+    value={filters.department}
+    onChange={(e) => setFilters({ ...filters, department: e.target.value })}
+  >
+    <option value="">Filter by Department</option>
+    <option value="Human Resources">Human Resources</option>
+    <option value="Information Technology">Information Technology</option>
+    <option value="Marketing">Marketing</option>
+    <option value="Accounts">Accounts</option>
+    <option value="Engineering">Engineering</option>
+  </select>
         </div>
         <div className="search-wrapper">
           <select
@@ -287,8 +292,19 @@ const Past = () => {
 };
 
 const ProjectBox = ({ project, index }) => {
-  const colors = ['#fee4cb', '#e9e7fd', '#ffd3e2', '#c8f7dc', '#d5deff'];
-  const backgroundColor = colors[index % colors.length];
+  const departmentColors = {
+    'Human Resources': 'var(--color-hr)',
+    'HR': 'var(--color-hr)', 
+    'Information Technology': 'var(--color-informationtechnology)',
+    'IT': 'var(--color-informationtechnology)',
+    'Marketing': 'var(--color-marketing)',
+    'Accounts': 'var(--color-accounts)',
+    'Engineering': 'var(--color-engineering)',
+    'Cloud': 'var(--color-informationtechnology)'
+  };
+
+  const backgroundColor = departmentColors[project.type || project.department] || '#ffffff'; 
+  
   const [showDropdown, setShowDropdown] = useState(false);
   const [showEditPopup, setShowEditPopup] = useState(false);
   const [showViewPopup, setShowViewPopup] = useState(false);
@@ -353,7 +369,7 @@ const ProjectBox = ({ project, index }) => {
       .map((skill, idx) => (
         <span
           key={idx}
-          className="px-2 py-2 mb-2 rounded-full bg-yellow-600 text-white text-sm font-semibold shadow-lg hover:bg-yellow-900 transition-transform transform hover:scale-105"
+          className="px-2 py-2 mb-2 rounded-full bg-indigo-600 text-white text-sm font-semibold shadow-lg hover:bg-indigo-900 transition-transform transform hover:scale-105"
         >
           {skill.trim()}
         </span>

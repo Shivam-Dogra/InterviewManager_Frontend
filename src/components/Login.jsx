@@ -67,7 +67,7 @@ const Login = () => {
           autoplay
           loop
           src={interviewAnimation}
-          style={{ height: '400px', width: '500px' }}
+          style={{ height: '500px', width: '600px', marginRight: '-100px' }}
         />
       </div>
     </div>

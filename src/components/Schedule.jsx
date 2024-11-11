@@ -152,15 +152,22 @@ const ScheduleInterview = () => {
                   required
                 />
   
-                <input
-                  className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
-                  type="text"
-                  name="department"
-                  value={formData.department}
-                  onChange={handleChange}
-                  placeholder="Department*"
-                  required
-                />
+  <select
+  className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
+  name="department"
+  value={formData.department}
+  onChange={handleChange}
+  required
+>
+  <option value="" disabled>
+    Select Department
+  </option>
+  <option value="Human Resources">Human Resources</option>
+  <option value="Information Technology">Information Technology</option>
+  <option value="Marketing">Marketing</option>
+  <option value="Accounts">Accounts</option>
+  <option value="Engineering">Engineering</option>
+</select>
   
                 <select
                   className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"

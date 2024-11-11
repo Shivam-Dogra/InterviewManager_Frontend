@@ -81,17 +81,38 @@ const Register = () => {
               required
             />
           </div>
+
           <div className="input-group">
-            <label>Department</label>
-            <input
-              type="text"
-              value={department}
-              onChange={(e) => setDepartment(e.target.value)}
-              style={{ width: "400px", fontSize: "16px" }}
-              required
-            />
-          </div>
-          <button className="login-btn" type="submit"  style={{ width: "430px", fontSize: "16px" }}>Register</button>
+  <label htmlFor="department-select" style={{ marginBottom: "5px", display: "block" }}>
+    Department
+  </label>
+  <select
+    id="department-select"
+    value={department}
+    onChange={(e) => setDepartment(e.target.value)}
+    style={{
+      width: "400px", // Full width
+      fontSize: "16px", // Standard font size for inputs
+      marginBottom: "2px", // Space below the element
+      padding: "12px", // Consistent padding
+      backgroundColor: "#f5f5f5", // Light cream background for inputs
+      color: "#333333", // Darker text color for contrast
+      border: "1px solid #ccc", // Subtle border
+      borderRadius: "5px", // Rounded corners for better aesthetics
+      height: "50px"
+    }}
+    
+  >
+    <option value="">Select</option>
+    <option value="Human Resources">Human Resources</option>
+    <option value="Information Technology">Information Technology</option>
+    <option value="Marketing">Marketing</option>
+    <option value="Accounts">Accounts</option>
+    <option value="Engineering">Engineering</option>
+  </select>
+</div>
+
+          <button className="login-btn" type="submit"  style={{ width: "400px", fontSize: "16px" }}>Register</button>
         </form>
         <p className="sign-up-link">
           Already have an account? <a href="/login">Login</a>
@@ -102,7 +123,7 @@ const Register = () => {
           autoplay
           loop
           src={interviewAnimation}
-          style={{ height: '400px', width: '500px' }}
+          style={{ height: '500px', width: '600px', marginRight: '-100px' }}
         />
       </div>
     </div>

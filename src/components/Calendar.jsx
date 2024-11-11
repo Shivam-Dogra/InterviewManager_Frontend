@@ -21,13 +21,17 @@ const localizer = dateFnsLocalizer({
 });
 
 // Predefined color array
-const colors = ['#fee4cb', '#e9e7fd', '#ffd3e2', '#c8f7dc', '#d5deff'];
-
-// Function to get a random color from the colors array
-const getRandomColor = () => {
-  const randomIndex = Math.floor(Math.random() * colors.length);
-  return colors[randomIndex];
+const departmentColors = {
+  'Human Resources': 'var(--color-hr)',
+  'HR': 'var(--color-hr)',
+  'Information Technology': 'var(--color-informationtechnology)',
+  'IT': 'var(--color-informationtechnology)',
+  'Marketing': 'var(--color-marketing)',
+  'Accounts': 'var(--color-accounts)',
+  'Engineering': 'var(--color-engineering)',
 };
+
+
 
 const CustomCalendar = () => {
   const [events, setEvents] = useState([]);
@@ -43,7 +47,7 @@ const CustomCalendar = () => {
         });
 
         const apiEvents = response.data.map(interview => ({
-          title: interview.title,
+          title: interview.signedUp ? interview.title : `${interview.title} 🚨`, 
           start: new Date(interview.date),
           end: new Date(interview.date),
           interviewerName: interview.interviewerName,
@@ -75,7 +79,9 @@ const CustomCalendar = () => {
 
   return (
     <div className="dashboard-container">
-      <TopNavbar />
+      <div className="app-header">
+      <TopNavbar /> 
+      </div>
       <div className="main-content">
         <Sidebar />
         <Calendar
@@ -83,19 +89,18 @@ const CustomCalendar = () => {
           events={events}
           startAccessor="start"
           endAccessor="end"
-          style={{ height: 840, width: 1530, borderRadius: '10px', overflow: 'hidden' }}
+          style={{ height: 700, width: 1520, borderRadius: '10px', overflow: 'hidden' }}
           defaultView="month"
           views={['month']}
           toolbar
           popup
           onSelectEvent={handleEventClick}
           eventPropGetter={(event) => {
-            // Get a random color from the predefined colors array
-            const randomColor = getRandomColor();
+            const departmentColor = departmentColors[event.department] || 'var(--default-color)'; // Fallback to default color if department is not found
             return {
               style: {
-                backgroundColor: randomColor,
-                color: 'black',
+                backgroundColor: departmentColor,
+                color: 'black', // Adjust text color for better contrast
                 borderRadius: "8px",
                 padding: "5px",
                 boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
@@ -109,6 +114,8 @@ const CustomCalendar = () => {
               }
             };
           }}
+          
+  
         />
         {selectedEvent && (
  <div className="modal">
@@ -130,7 +137,7 @@ const CustomCalendar = () => {
        <div className="mb-5 text-center">
          <h3 className="text-lg font-semibold text-indigo-600 mb-2">Interviewer:</h3>
          <div className="flex justify-center flex-wrap gap-3">
-           <span className="px-4 py-2 rounded-full bg-indigo-600 text-white text-sm font-semibold shadow-md">
+           <span className="text-indigo-900 font-medium">
              {selectedEvent.interviewerName}
            </span>
          </div>
@@ -143,7 +150,7 @@ const CustomCalendar = () => {
            {selectedEvent.intervieweesName.split(",").map((candidate, idx) => (
              <span
                key={idx}
-               className="px-4 py-2 rounded-full bg-indigo-600 text-white text-sm font-semibold shadow-md"
+              className="text-indigo-900 font-medium"
              >
                {candidate.trim()}
              </span>
