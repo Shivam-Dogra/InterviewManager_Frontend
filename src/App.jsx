@@ -6,6 +6,8 @@ import Schedule from './components/Schedule';
 import Past from './components/Past';
 import InterviewAnalytics from './components/InterviewAnalytics';
 import Calendar from './components/Calendar'
+import Profile from './components/Profile'
+
 
 function App() {
   return (
@@ -13,6 +15,7 @@ function App() {
       <div>
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/profile" element={<Profile />} />
           <Route path="/register" element={<Register />} />
           <Route path="/" element={<Dashboard />} />
           <Route path="/schedule" element={<Schedule />} />

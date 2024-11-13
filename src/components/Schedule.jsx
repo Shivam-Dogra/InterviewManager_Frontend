@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import TopNavbar from './TopNavbar';
 import Sidebar from './Slidebar';
 import '../App.css';
@@ -7,6 +7,7 @@ import axios from 'axios';
 
 
 const ScheduleInterview = () => {
+  const [username, setUsername] = useState('');
   const [formData, setFormData] = useState({
     title: '',
     interviewerName: '',
@@ -29,6 +30,12 @@ const ScheduleInterview = () => {
     });
   };
 
+  useEffect(() => {    
+      const storedUsername = localStorage.getItem('username');
+      setUsername(storedUsername);
+
+  });
+
   const handleIntervieweesNameChange = (e) => {
     const value = e.target.value;
     const intervieweesArray = value.split(',').map((name) => name.trim());
@@ -48,7 +55,6 @@ const ScheduleInterview = () => {
         },
       });
       alert('Interview Scheduled Successfully!');
-      console.log('Response:', response.data);
     } catch (error) {
       alert('Error scheduling interview');
       console.error('Error:', error.response ? error.response.data : error.message);
@@ -59,7 +65,7 @@ const ScheduleInterview = () => {
     <div className="dashboard-container">
       {/* Top Navbar */}
       <div className="app-header">
-        <TopNavbar />
+        <TopNavbar username={username} />
       </div>
   
       {/* Sidebar and Content */}
@@ -71,7 +77,7 @@ const ScheduleInterview = () => {
         <div className="content-area flex justify-center items-center w-full h-screen bg-gray-100">
           <div className="container mx-auto my-4 px-4 lg:px-20">
             {/* Left Section (Form) */}
-            <div className="w-full p-8 md:px-12 lg:w-9/12 lg:pl-20 lg:pr-40 mx-auto rounded-2xl shadow-2xl bg-white">
+            <div className="w-full p-8 md:px-12 lg:w-9/12 lg:pl-20 lg:pr-40 mx-auto rounded-2xl shadow-2xl bg-white relative" style={{ top: '-50px' }}>
               <h1 className="font-bold uppercase text-5xl text-black mb-6">Schedule Interview</h1>
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                 <input

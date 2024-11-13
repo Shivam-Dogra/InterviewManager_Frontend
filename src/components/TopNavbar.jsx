@@ -12,6 +12,10 @@ const TopNavbar = ({ username }) => {
     navigate('/login');
   };
 
+  const handleProfileRedirect = () => {
+    navigate('/profile'); 
+  };
+
   const toggleDropdown = () => setDropdownOpen(!dropdownOpen);
 
   const getUsernameInitials = () => {
@@ -37,27 +41,34 @@ const TopNavbar = ({ username }) => {
           </svg>
         </button>
         
-        <div className="relative">
-          <button
-            onClick={toggleDropdown}
-            className="flex items-center space-x-2 cursor-pointer"
-          >
-            <span className='text-black font-bold'>{username}</span>
-            <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white text-lg font-bold">
-              {getUsernameInitials(username)}
-            </div>
-          </button>
-          {dropdownOpen && (
-            <div className="absolute right-0 mt-2 w-32 bg-white text-gray-800 rounded-lg shadow-lg py-2">
-              <button
-                onClick={handleLogout}
-                className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
-              >
-                Logout
-              </button>
-            </div>
-          )}
-        </div>
+        <div className="relative z-50">
+  <button
+    onClick={toggleDropdown}
+    className="flex items-center space-x-2 cursor-pointer"
+  >
+    <span className="text-black font-bold">{username}</span>
+    <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white text-lg font-bold">
+      {getUsernameInitials(username)}
+    </div>
+  </button>
+  {dropdownOpen && (
+    <div className="absolute right-0 mt-2 w-32 bg-white text-gray-800 rounded-lg shadow-lg py-2 z-50">
+      <button
+        onClick={handleProfileRedirect}
+        className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+      >
+        Profile
+      </button>
+      <button
+        onClick={handleLogout}
+        className="block w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
+      >
+        Logout
+      </button>
+    </div>
+  )}
+</div>
+
       </div>
     </div>
   );

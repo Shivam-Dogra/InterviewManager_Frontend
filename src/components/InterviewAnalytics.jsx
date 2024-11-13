@@ -67,21 +67,22 @@ const InterviewAnalytics = () => {
                     <h3 className="text-3xl font-bold text-indigo-600 mb-6">Interview Analytics</h3>
  
                     <div className="grid grid-cols-7 grid-rows-7 gap-4">
-                        <div className="col-span-2">
-                            <div className="small-card">
-                                <h5 className="text-sm font-semibold text-gray-700">Total Interviews</h5>
-                                <p className="text-green-500 text-xl font-bold">{data.totalInterviews}</p>
-                            </div>
-                        </div>
+                    <div className="col-span-2">
+    <div className="small-card flex flex-col justify-center items-center">
+        <h5 className="text-sm font-semibold text-gray-700">Total Interviews</h5>
+        <p className="text-green-500 text-xl font-bold">{data.totalInterviews}</p>
+    </div>
+</div>
+
                         <div className="col-span-2 col-start-3">
-                            <div className="small-card">
+                            <div className="small-card flex flex-col justify-center items-center">
                                 <h5 className="text-sm font-semibold text-gray-700">Average Duration</h5>
                                 <p className="text-blue-500 text-xl font-bold">{data.averageDuration.toFixed(2)} mins</p>
                             </div>
                         </div>
                         <div className="col-span-4 row-span-3 col-start-1 row-start-2">
                             <div className="card chart-card">
-                                <h5 className="text-lg font-semibold text-center mb-2 text-gray-700">Interview Trends</h5>
+                                <h5 className="text-lg font-semibold text-center mb-1 text-gray-700">Interview Trends</h5>
                                 <ResponsiveContainer width="100%" height={300}>
                                     <LineChart data={interviewTrendsData}>
                                         <XAxis dataKey="date" />
@@ -95,7 +96,7 @@ const InterviewAnalytics = () => {
                         </div>
                         <div className="col-span-4 row-span-3 col-start-1 row-start-5">
                             <div className="card chart-card">
-                                <h5 className="text-lg font-semibold text-center mb-2 text-gray-700">Department Counts</h5>
+                                <h5 className="text-lg font-semibold text-center mb-2 mt-2 text-gray-700">Department Counts</h5>
                                 <ResponsiveContainer width="100%" height={300}>
                                     <PieChart>
                                         <Pie data={departmentData} dataKey="value" nameKey="name" cx="50%" cy="50%" outerRadius={100}>
@@ -110,19 +111,20 @@ const InterviewAnalytics = () => {
                             </div>
                         </div>
                         <div className="col-span-3 row-span-3 col-start-5 row-start-5">
-                            <div className="card chart-card">
-                                <h5 className="text-lg font-semibold text-center mb-2 text-gray-700">Top 5 Skills Checked</h5>
-                                <ResponsiveContainer width="100%" height={300}>
-                                    <BarChart data={skillData} layout="vertical">
-                                        <XAxis type="number" />
-                                        <YAxis type="category" dataKey="name" />
-                                        <Tooltip />
-                                        <Legend />
-                                        <Bar dataKey="count" fill="#8884d8" />
-                                    </BarChart>
-                                </ResponsiveContainer>
-                            </div>
-                        </div>
+    <div className="card chart-card">
+        <h5 className="text-sm font-semibold text-center mb-3 mt-2 text-gray-700">Top 5 Skills Checked</h5>
+        <ResponsiveContainer width="100%" height={300}>
+            <BarChart data={skillData} layout="vertical">
+                <XAxis type="number" tick={{ fontSize: 12 }} />
+                <YAxis type="category" dataKey="name" tick={{ fontSize: 13 }} />
+                <Tooltip contentStyle={{ fontSize: 13 }} />
+                <Legend wrapperStyle={{ fontSize: 13 }} />
+                <Bar dataKey="count" fill="#8884d8" />
+            </BarChart>
+        </ResponsiveContainer>
+    </div>
+</div>
+
                         <div className="col-span-3 row-span-4 col-start-5 row-start-1">
                             <div className="card lg-card text-center">
                                 <h5 className="text-lg font-semibold mb-2 text-gray-700">Interviewers</h5>
