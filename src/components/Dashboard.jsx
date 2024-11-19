@@ -443,7 +443,7 @@ const ViewPopup = ({ project, onClose }) => {
 
         {/* Participants Section */}
         <div className="mb-5">
-          <h3 className="text-lg font-semibold text-indigo-600 mb-2">Interviewer:</h3>
+          <h3 className="text-lg font-semibold text-indigo-600 mb-2">Candidate:</h3>
           <div className="flex flex-wrap gap-3">
             <span
               className="text-indigo-900 font-medium"
@@ -455,7 +455,7 @@ const ViewPopup = ({ project, onClose }) => {
 
         {/* Candidate Section */}
         <div>
-          <h3 className="text-lg font-semibold text-indigo-600 mb-2">Candidates:</h3>
+          <h3 className="text-lg font-semibold text-indigo-600 mb-2">Interviewer:</h3>
           <div className="flex flex-wrap gap-3">
             {project.intervieweesName &&
               project.intervieweesName.map((candidate, idx) => (
@@ -508,17 +508,17 @@ const EditFormPopup = ({ formData, handleSave, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-white bg-opacity-70 z-50">
-      <div className="bg-white w-full max-w-3xl p-8 rounded-2xl shadow-2xl relative transform transition-all sm:scale-105 hover:scale-105 duration-300">
+      <div className="bg-white w-full max-w-2xl p-4 rounded-2xl shadow-2xl relative transform transition-all sm:scale-105 hover:scale-105 duration-300" >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-gray-500 hover:text-red-600 focus:outline-none"
+          className="absolute top-3 right-3 text-gray-500 hover:text-red-600 focus:outline-none"
         >
           &times;
         </button>
-        <h2 className="text-2xl font-bold text-center text-gray-800 mb-6">Edit Interview Details</h2>
+        <h2 className="text-xl font-bold text-center text-gray-800 mb-2">Edit Interview Details</h2>
         <form onSubmit={handleFormSubmit} className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           
-          <div className="bg-gray-50 p-4 rounded-lg shadow-inner">
+          <div className="bg-gray-50 p-2 rounded-lg shadow-inner">
             <label className="block text-sm font-semibold text-gray-700">Title</label>
             <input
               type="text"
@@ -528,8 +528,8 @@ const EditFormPopup = ({ formData, handleSave, onClose }) => {
             />
           </div>
 
-          <div className="bg-gray-50 p-4 rounded-lg shadow-inner">
-            <label className="block text-sm font-semibold text-gray-700">Candidate Name</label>
+          <div className="bg-gray-50 p-2 rounded-lg shadow-inner">
+            <label className="block text-sm font-semibold text-gray-700">Interviewer Name</label>
             <input
               type="text"
               value={intervieweesName}
@@ -538,38 +538,37 @@ const EditFormPopup = ({ formData, handleSave, onClose }) => {
             />
           </div>
 
-          <div className="bg-gray-50 p-4 rounded-lg shadow-inner">
-  <label className="block text-sm font-semibold text-gray-700">Interviewer Name</label>
+          <div className="bg-gray-50 p-2 rounded-lg shadow-inner">
+  <label className="block text-sm font-semibold text-gray-700">Candidate Name</label>
   <input
     type="text"
     value={interviewerName}
     onChange={(e) => setInterviewerName(e.target.value)}
-    className="mt-2 w-full rounded-md border border-gray-300 p-3 focus:border-blue-500 focus:ring-blue-500 text-gray-700"
+    className="mt-2 w-full rounded-md border border-gray-300 p-2 focus:border-blue-500 focus:ring-blue-500 text-gray-700"
   />
-</div>
+  </div>
 
-
-          <div className="bg-gray-50 p-4 rounded-lg shadow-inner">
+          <div className="bg-gray-50 p-2 rounded-lg shadow-inner">
             <label className="block text-sm font-semibold text-gray-700">Skillset</label>
             <input
               type="text"
               value={skillset}
               onChange={(e) => setSkillset(e.target.value)}
-              className="mt-2 w-full rounded-md border border-gray-300 p-3 focus:border-blue-500 focus:ring-blue-500 text-gray-700"
+              className="mt-2 w-full rounded-md border border-gray-300 p-2 focus:border-blue-500 focus:ring-blue-500 text-gray-700"
             />
           </div>
 
-          <div className="bg-gray-50 p-4 rounded-lg shadow-inner">
+          <div className="bg-gray-50 p-2 rounded-lg shadow-inner">
             <label className="block text-sm font-semibold text-gray-700">Duration (minutes)</label>
             <input
               type="number"
               value={duration}
               onChange={(e) => setDuration(e.target.value)}
-              className="mt-2 w-full rounded-md border border-gray-300 p-3 focus:border-blue-500 focus:ring-blue-500 text-gray-700"
+              className="mt-2 w-full rounded-md border border-gray-300 p-2 focus:border-blue-500 focus:ring-blue-500 text-gray-700"
             />
           </div>
 
-          <div className="bg-gray-50 p-4 rounded-lg shadow-inner">
+          <div className="bg-gray-50 p-2 rounded-lg shadow-inner">
             <label className="block text-sm font-semibold text-gray-700">Date</label>
             <input
               type="date"
@@ -579,7 +578,7 @@ const EditFormPopup = ({ formData, handleSave, onClose }) => {
             />
           </div>
 
-          <div className="bg-gray-50 p-4 rounded-lg shadow-inner">
+          <div className="bg-gray-50 p-2 rounded-lg shadow-inner">
             <label className="block text-sm font-semibold text-gray-700">Time</label>
             <input
               type="text"
@@ -590,7 +589,7 @@ const EditFormPopup = ({ formData, handleSave, onClose }) => {
             />
           </div>
 
-          <div className="bg-gray-50 p-4 rounded-lg shadow-inner">
+          <div className="bg-gray-50 p-2 rounded-lg shadow-inner">
             <label className="block text-sm font-semibold text-gray-700">Notes</label>
             <input
               type="text"
@@ -600,7 +599,7 @@ const EditFormPopup = ({ formData, handleSave, onClose }) => {
             />
           </div>
 
-          <div className="bg-gray-50 p-4 rounded-lg shadow-inner">
+          <div className="bg-gray-50 p-2 rounded-lg shadow-inner">
             <label className="block text-sm font-semibold text-gray-700">Department</label>
             <input
               type="text"
@@ -610,7 +609,7 @@ const EditFormPopup = ({ formData, handleSave, onClose }) => {
             />
           </div>
 
-          <div className="bg-gray-50 p-4 rounded-lg shadow-inner">
+          <div className="bg-gray-50 p-2 rounded-lg shadow-inner">
             <label className="block text-sm font-semibold text-gray-700">Anyone Signed Up?</label>
             <select
               value={signedUp}
@@ -626,7 +625,7 @@ const EditFormPopup = ({ formData, handleSave, onClose }) => {
           <div className="sm:col-span-2">
             <button
               type="submit"
-              className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 rounded-lg shadow-lg transition duration-200 transform hover:scale-105"
+              className="w-full bg-indigo-600 hover:bg-indigo-800 text-white font-semibold py-3 rounded-lg shadow-lg transition duration-200 transform hover:scale-105"
             >
               Save
             </button>

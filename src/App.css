@@ -1960,3 +1960,16 @@ a {
   flex-wrap: wrap;
   gap: 10px; /* Adjust spacing between skills */
 }
+
+.alert-button {
+  background-color: #3F51B5;
+  color: white;
+  border: 1px solid #303F9F;
+  margin-left: 10px;
+}
+
+.alert-button:hover {
+  background-color: #303F9F; /* Optional: hover effect */
+  border-color: #1C2A6E;
+}
+

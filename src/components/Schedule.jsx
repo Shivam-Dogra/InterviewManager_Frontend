@@ -3,7 +3,8 @@ import TopNavbar from './TopNavbar';
 import Sidebar from './Slidebar';
 import '../App.css';
 import axios from 'axios';
-
+import { Modal, message } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 
 
 const ScheduleInterview = () => {
@@ -54,10 +55,15 @@ const ScheduleInterview = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      alert('Interview Scheduled Successfully!');
+      message.success('Interview Scheduled Successfully!', 2);
     } catch (error) {
-      alert('Error scheduling interview');
       console.error('Error:', error.response ? error.response.data : error.message);
+      Modal.error({
+        title: 'Error Scheduling Interview',
+        icon: <ExclamationCircleOutlined />,
+        content: error.response ? error.response.data : error.message,
+        okText: 'Close',
+      });
     }
   };
 

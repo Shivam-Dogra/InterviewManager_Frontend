@@ -135,7 +135,7 @@ const CustomCalendar = () => {
 
        {/* Interviewer */}
        <div className="mb-5 text-center">
-         <h3 className="text-lg font-semibold text-indigo-600 mb-2">Interviewer:</h3>
+         <h3 className="text-lg font-semibold text-indigo-600 mb-2">Candidate</h3>
          <div className="flex justify-center flex-wrap gap-3">
            <span className="text-indigo-900 font-medium">
              {selectedEvent.interviewerName}
@@ -145,7 +145,7 @@ const CustomCalendar = () => {
 
        {/* Candidates */}
        <div className="mb-5 text-center">
-         <h3 className="text-lg font-semibold text-indigo-600 mb-2">Candidate(s):</h3>
+         <h3 className="text-lg font-semibold text-indigo-600 mb-2">Interviewer:</h3>
          <div className="flex justify-center flex-wrap gap-3">
            {selectedEvent.intervieweesName.split(",").map((candidate, idx) => (
              <span

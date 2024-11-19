@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { TextField, Button, Avatar, Box, Typography } from '@mui/material';
-import TopNavbar from '../components/TopNavbar'; // Adjust path as needed
-import Sidebar from '../components/Slidebar'; // Adjust path as needed
+import TopNavbar from '../components/TopNavbar'; 
+import Sidebar from '../components/Slidebar'; 
+import { Modal, message } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+
 
 const ProfilePage = () => {
     const [user, setUser] = useState({});
@@ -40,18 +43,23 @@ const ProfilePage = () => {
             }
           );
       
-          alert('Profile updated successfully!');
+          message.success('Your profile is updated!', 2);
           setUser(response.data.user);
           setEditMode(false);
         } catch (error) {
           console.error('Error updating profile:', error);
+          Modal.error({
+            title: 'Failed to save changes!',
+            icon: <ExclamationCircleOutlined />,
+            content: error.response ? error.response.data : error.message,
+            okText: 'Close',
+          });
           setError('Failed to save changes');
         }
       };
       
-    const handleInputChange = (field, value) => {
-      setUser({ ...user, [field]: value });
-    };
+     
+      
   
     if (loading) return <div>Loading...</div>;
     if (error) return <div className="text-red-500">{error}</div>;
@@ -73,19 +81,7 @@ const ProfilePage = () => {
               <div className="container mx-auto my-4 px-4 lg:px-20">
                 <div className="w-full p-8 md:px-12 lg:w-9/12 lg:pl-20 lg:pr-40 mx-auto rounded-2xl shadow-2xl bg-white relative" style={{ top: '-70px' }}>
                   <h1 className="font-bold uppercase text-5xl text-black mb-6 text-center">Profile</h1>
-                  <Box display="flex" alignItems="center" mb={4}>
-  <Avatar src={user.picture || '/default-profile.png'} alt="Profile Picture" sx={{ width: 80, height: 80 }} />
-  <Box ml={2}>
-    <label className="uppercase text-sm font-bold tracking-wide bg-blue-900 text-white p-3 rounded-lg cursor-pointer focus:outline-none focus:shadow-outline hover:bg-blue-800 transition duration-200">
-      Change Picture
-      <input
-        type="file"
-        hidden
-        onChange={(e) => handleInputChange('picture', e.target.files[0])}
-      />
-    </label>
-  </Box>
-              </Box>
+                     
                   <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <input
                       className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"

@@ -4,6 +4,9 @@ import '../App.css';
 import { Player } from '@lottiefiles/react-lottie-player'; 
 import interviewAnimation from '../assets/interview_image1.json'; 
 import { useNavigate } from 'react-router-dom';
+import { Modal, message } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+
 
 const Register = () => {
   const [name, setName] = useState('');
@@ -26,13 +29,18 @@ const Register = () => {
         position,
         department,
       });
-      alert('Registration Successful!');
+      message.success('Registered Successfully!', 2);
       console.log(response.data);
       navigate('/'); 
       
     } catch (error) {
-      alert('Registration Failed!');
       console.error('Registration error:', error);
+      Modal.error({
+        title: 'Failed to Register',
+        icon: <ExclamationCircleOutlined />,
+        content: error.response ? error.response.data : error.message,
+        okText: 'Close',
+      });
     }
   };
 

@@ -4,6 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import '../App.css'; 
 import { Player } from '@lottiefiles/react-lottie-player'; 
 import interviewAnimation from '../assets/interview_image1.json'; 
+import { Modal, message } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+
 
 const Login = () => {
   const [email, setEmail] = useState('');
@@ -17,7 +20,7 @@ const Login = () => {
         email,
         password,
       });
-      alert('Login Successful!');
+      message.success('Login Successfull!', 2);
       
       const { token, user } = response.data;
       localStorage.setItem('token', token);
@@ -25,8 +28,13 @@ const Login = () => {
       navigate('/'); 
 
     } catch (error) {
-      alert('Login Failed!');
       console.error('Login error:', error);
+      Modal.error({
+        title: 'Incorrect email or password!',
+        icon: <ExclamationCircleOutlined />,
+        content: error.response ? error.response.data : error.message,
+        okText: 'Close',
+      });
     }
   };
 
