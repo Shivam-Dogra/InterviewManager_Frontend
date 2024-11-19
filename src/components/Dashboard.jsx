@@ -4,6 +4,9 @@ import TopNavbar from './TopNavbar';
 import Sidebar from './Slidebar';
 import Leaderboard from './Leaderboard';
 import '../App.css';
+import { Modal, message } from 'antd';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+
 
 const Dashboard = () => {
   const [projectData, setProjectData] = useState([]);
@@ -22,13 +25,19 @@ const Dashboard = () => {
         await axios.delete(`http://localhost:3000/api/interview/delete/${id}`, {
           headers: { Authorization: `Bearer ${token}` },
         });
-        alert('Interview deleted successfully');
+        message.success('Interview deleted successfully');
 
         // Remove the deleted project from the state
         setProjectData(prevData => prevData.filter(project => project._id !== id));
       } catch (error) {
         console.error('Error deleting interview:', error);
-        alert('Error deleting interview');
+        Modal.error({
+          title: 'Error deleting interview!',
+          icon: <ExclamationCircleOutlined />,
+          content: error.response ? error.response.data : error.message,
+          okText: 'Close',
+        });
+        
       }
     }
   };
@@ -106,7 +115,8 @@ const Dashboard = () => {
           type: interview.department,
           progress: interview.signedUp ? 100 : 0,
           progressColor: interview.signedUp ? '#28a745' : '#ff4b5c',
-          participants: interview.intervieweesName,
+          signedUp: interview.signedUp,
+          intervieweesName: interview.intervieweesName,
           daysLeft: calculateDaysLeft(interview.date),
           skillset: interview.skillset,
           time: interview.time,
@@ -230,7 +240,8 @@ const ProjectBox = ({ project, index, handleDelete }) => {
   };
 
   const openEditPopup = () => {
-    setFormData({ ...project });
+    const { progress, progressColor,daysLeft, ...filteredFormData } = project;
+    setFormData(filteredFormData);
     setShowEditPopup(true);
     setShowDropdown(false);
   };
@@ -251,10 +262,10 @@ const ProjectBox = ({ project, index, handleDelete }) => {
 
   const handleSave = async (updatedFormData) => {
     const token = localStorage.getItem('token');
-
+    
     // Filter out fields that are not part of the schema
-  const validFields = {
-    title: updatedFormData.name, // Map back to schema field
+  const payload = {
+    title: updatedFormData.name,               // Map back to schema field
     interviewerName: updatedFormData.interviewerName,
     skillset: updatedFormData.skillset,
     duration: updatedFormData.duration,
@@ -262,7 +273,8 @@ const ProjectBox = ({ project, index, handleDelete }) => {
     time: updatedFormData.time,
     notes: updatedFormData.notes,
     department: updatedFormData.department,
-    intervieweesName: updatedFormData.participants, // Match schema field
+    intervieweesName: updatedFormData.intervieweesName,
+    signedUp: updatedFormData.signedUp // Match schema field
   };
 
 
@@ -272,9 +284,20 @@ const ProjectBox = ({ project, index, handleDelete }) => {
       });
       console.log('Updated interview data:', response.data);
       setShowEditPopup(false);
+      message.success("Interview details updated sucessfully!",1)
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+  
+
     } catch (error) {
       console.error('Error updating interview:', error);
-      alert('Error updating interview');
+      Modal.error({
+        title: 'Error updating interview',
+        icon: <ExclamationCircleOutlined />,
+        content: error.response ? error.response.data : error.message,
+        okText: 'Close',
+      });
     }
   };
 
@@ -477,23 +500,32 @@ const ViewPopup = ({ project, onClose }) => {
 
 const EditFormPopup = ({ formData, handleSave, onClose }) => {
   const [title, setTitle] = useState(formData.name || '');
-  const [intervieweesName, setIntervieweesName] = useState(formData.participants ? formData.participants[0] || '' : '');
+  const [intervieweesName, setIntervieweesName] = useState(formData.intervieweesName ? formData.intervieweesName[0] || '' : '');
   const [skillset, setSkillset] = useState(formData.skillset || '');
   const [duration, setDuration] = useState(formData.duration || '');
-  const [date, setDate] = useState(formData.date || '');
   const [time, setTime] = useState(formData.time || '');
   const [notes, setNotes] = useState(formData.notes || '');
-  const [department, setDepartment] = useState(formData.department || '');
-  const [signedUp, setSignedUp] = useState(formData.signedUp || '');
+  const [department, setDepartment] = useState(formData.type || '');
+  const [signedUp, setSignedUp] = useState(formData.signedUp || false); // Default to false if not provided
+
   const [interviewerName, setInterviewerName] = useState(formData.interviewerName || '');
 
+  const [date, setDate] = useState(
+    new Date(formData.date).toISOString().split('T')[0] || ''
+  );
+
+  useEffect(() => {
+    console.log('Form Data:', formData);
+    console.log('Notes Field:', notes);
+  }, [formData, notes]);
+  
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
     const updatedFormData = {
       ...formData,
       name: title,
-      participants: [intervieweesName],
+      intervieweesName: [intervieweesName],
       skillset,
       duration,
       date,
@@ -612,14 +644,13 @@ const EditFormPopup = ({ formData, handleSave, onClose }) => {
           <div className="bg-gray-50 p-2 rounded-lg shadow-inner">
             <label className="block text-sm font-semibold text-gray-700">Anyone Signed Up?</label>
             <select
-              value={signedUp}
-              onChange={(e) => setSignedUp(e.target.value)}
-              className="mt-2 w-full rounded-md border border-gray-300 p-3 focus:border-blue-500 focus:ring-blue-500 text-gray-700"
-            >
-              <option value="">Select an option</option>
-              <option value="yes">Yes</option>
-              <option value="no">No</option>
-            </select>
+  value={signedUp ? 'yes' : 'no'} // Convert boolean to string for UI
+  onChange={(e) => setSignedUp(e.target.value === 'yes')} // Convert string back to boolean
+  className="mt-2 w-full rounded-md border border-gray-300 p-3 focus:border-blue-500 focus:ring-blue-500 text-gray-700"
+>
+  <option value="yes">Yes</option>
+  <option value="no">No</option>
+</select>
           </div>
 
           <div className="sm:col-span-2">
