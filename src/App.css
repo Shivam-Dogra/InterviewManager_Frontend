@@ -531,11 +531,19 @@ hr {
   --search-area-bg: #fff;
   --star: #1ff1c2e;
   --message-btn: #fff;
-  --color-hr: #fee4cb; /* Human Resources (Peach Puff) */
-  --color-informationtechnology: #e9e7fd; /* Research and Development (Lavender Mist) */
-  --color-marketing: #ffd3e2; /* Marketing (Pink Lace) */
-  --color-accounts: #c8f7dc; /* Sustainability (Mint Cream) */
-  --color-engineering: #d5deff; /* Engineering (Periwinkle Blue) */
+  /*department colors */
+  --color-hr: #fbcfc2; /* Light Coral */
+  --color-informationtechnology: #c1dcfa; /* Soft Sky Blue */
+  --color-marketing: #fcccdc; /* Blush Pink */
+  --color-accounts: #cdfbd4; /* Pastel Mint */
+  --color-engineering: #fae19a; /* Soft Golden Yellow */
+  /*graph colors */
+  --color-indigo: #4B0082;
+    --color-green: #006400;
+    --color-dark-slate: #2F4F4F;
+    --color-brown: #A52A2A;
+    --color-gray: #808080;
+  
 }
 
 .dark:root {
@@ -1972,4 +1980,8 @@ a {
   background-color: #303F9F; /* Optional: hover effect */
   border-color: #1C2A6E;
 }
+
+
+
+
 

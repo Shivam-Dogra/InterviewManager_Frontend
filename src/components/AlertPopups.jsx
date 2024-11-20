@@ -5,7 +5,6 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 const { confirm } = Modal;
 
 const AlertPopups = () => {
-  const [modalVisible, setModalVisible] = useState(false);
 
   const showWarning = () => {
     confirm({
@@ -25,7 +24,7 @@ const AlertPopups = () => {
   };
 
   const showSuccess = () => {
-    message.success('The process was successful!');
+    message.success('successful!');
   };
 
   const showError = () => {

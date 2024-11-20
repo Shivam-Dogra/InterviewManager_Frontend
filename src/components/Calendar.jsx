@@ -36,8 +36,11 @@ const departmentColors = {
 const CustomCalendar = () => {
   const [events, setEvents] = useState([]);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [username, setUsername] = useState('');
 
   useEffect(() => {
+    const storedUsername = localStorage.getItem('username');
+    setUsername(storedUsername);
     const fetchEvents = async () => {
       try {
         const response = await axios.get("http://localhost:3000/api/interview/all", {
@@ -80,7 +83,7 @@ const CustomCalendar = () => {
   return (
     <div className="dashboard-container">
       <div className="app-header">
-      <TopNavbar /> 
+      <TopNavbar username={username} />
       </div>
       <div className="main-content">
         <Sidebar />
@@ -134,8 +137,8 @@ const CustomCalendar = () => {
        </p>
 
        {/* Interviewer */}
-       <div className="mb-5 text-center">
-         <h3 className="text-lg font-semibold text-indigo-600 mb-2">Candidate</h3>
+       <div className="mb-4 text-center">
+         <h3 className="text-lg font-semibold text-indigo-600">Candidate:</h3>
          <div className="flex justify-center flex-wrap gap-3">
            <span className="text-indigo-900 font-medium">
              {selectedEvent.interviewerName}
@@ -144,8 +147,8 @@ const CustomCalendar = () => {
        </div>
 
        {/* Candidates */}
-       <div className="mb-5 text-center">
-         <h3 className="text-lg font-semibold text-indigo-600 mb-2">Interviewer:</h3>
+       <div className="mb-4 text-center">
+         <h3 className="text-lg font-semibold text-indigo-600 -mt-3">Interviewer:</h3>
          <div className="flex justify-center flex-wrap gap-3">
            {selectedEvent.intervieweesName.split(",").map((candidate, idx) => (
              <span
@@ -159,9 +162,9 @@ const CustomCalendar = () => {
        </div>
 
        {/* Skills */}
-       <div className="mb-5 text-center">
-         <h3 className="text-lg font-semibold text-indigo-600 mb-2">Skills Required:</h3>
-         <div className="flex justify-center flex-wrap gap-3">
+       <div className="mb-4 text-center">
+         <h3 className="text-lg font-semibold text-indigo-600 -mt-3">Skills Required:</h3>
+         <div className="flex justify-center flex-wrap gap-3 mt-2">
            {selectedEvent.skillset.split(",").map((skill, idx) => (
              <span
                key={idx}

@@ -12,11 +12,16 @@ const ProfilePage = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [editMode, setEditMode] = useState(false);
+    const [username, setUsername] = useState('');
   
     useEffect(() => {
+      const storedUsername = localStorage.getItem('username');
+      setUsername(storedUsername);
+      console.log(`Fetching data for username: ${storedUsername}`);
+
       const fetchUserData = async () => {
         try {
-          const response = await axios.get('http://localhost:3000/api/interview/John Doe');
+          const response = await axios.get(`http://localhost:3000/api/interview/${storedUsername}`);
           setUser(response.data);
         } catch (error) {
           console.error('Error fetching user data:', error);
@@ -28,6 +33,14 @@ const ProfilePage = () => {
       fetchUserData();
     }, []);
   
+    const handleInputChange = (field, value) => {
+      setUser((prevUser) => ({
+          ...prevUser,
+          [field]: value,
+      }));
+  };
+
+
     const handleSaveChanges = async () => {
         try {
           console.log('Updated user:', user); // Log user before sending
@@ -46,15 +59,16 @@ const ProfilePage = () => {
           message.success('Your profile is updated!', 2);
           setUser(response.data.user);
           setEditMode(false);
+          setError(null);
         } catch (error) {
-          console.error('Error updating profile:', error);
+          const errorMessage = error.response?.data?.message || error.message || 'An unknown error occurred';
           Modal.error({
             title: 'Failed to save changes!',
             icon: <ExclamationCircleOutlined />,
             content: error.response ? error.response.data : error.message,
             okText: 'Close',
           });
-          setError('Failed to save changes');
+          setError(errorMessage);
         }
       };
       
@@ -68,7 +82,7 @@ const ProfilePage = () => {
         <div className="dashboard-container">
           {/* Top Navbar */}
           <div className="app-header">
-            <TopNavbar />
+          <TopNavbar username={username} />
           </div>
     
           {/* Sidebar and Content */}
