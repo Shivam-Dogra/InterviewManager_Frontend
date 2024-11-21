@@ -26,7 +26,7 @@ const FunFactsDialog = ({
           <div className="modal-content">
             <div className="fixed inset-0 flex items-center justify-center bg-gray-900 bg-opacity-75 z-50">
               <div className="bg-white rounded-2xl shadow-2xl max-w-md w-full p-8 relative">
-                <h2 className="text-3xl font-bold text-indigo-600 mb-6 text-center">Did You Know?</h2>
+                <h2 className="text-3xl font-bold text-indigo-600 mb-6 text-center">Fun Facts!</h2>
 
                 {/* Most Interviewed Department */}
                 <p className="text-lg font-medium text-gray-800 text-center mb-4">

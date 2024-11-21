@@ -113,7 +113,7 @@ const Dashboard = () => {
           date: formatDate(new Date(interview.date)),
           name: interview.title,
           type: interview.department,
-          progress: interview.signedUp ? 100 : 0,
+          progress: interview.signedUp ? 'Assigned' : 'Unassigned',
           progressColor: interview.signedUp ? '#28a745' : '#ff4b5c',
           signedUp: interview.signedUp,
           intervieweesName: interview.intervieweesName,
@@ -155,7 +155,9 @@ const Dashboard = () => {
   const filteredData = projectData.filter((project) => {
     const matchesDate = filters.date ? project.date === formatDate(new Date(filters.date)) : true;
     const matchesDepartment = filters.department ? project.type.includes(filters.department) : true;
-    const matchesSignedUp = filters.signedUp ? (filters.signedUp === 'yes' ? project.progress === 100 : project.progress < 100) : true;
+    const matchesSignedUp = filters.signedUp
+  ? (filters.signedUp === 'yes' ? project.progress === 'Assigned' : project.progress === 'Unassigned')
+  : true;
 
     return matchesDate && matchesDepartment && matchesSignedUp;
   });
@@ -437,7 +439,7 @@ const ViewPopup = ({ project, onClose }) => {
           <p className="text-lg font-medium text-gray-800">
             <span className="font-semibold text-indigo-600">Progress:</span>{" "}
             <span className="font-bold" style={{ color: project.progressColor }}>
-              {project.progress}%
+              {project.progress}
             </span>
           </p>
           <p className="text-lg font-medium text-gray-800">

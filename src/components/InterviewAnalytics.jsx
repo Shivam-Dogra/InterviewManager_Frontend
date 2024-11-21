@@ -150,21 +150,23 @@ const InterviewAnalytics = () => {
               </div>
             </div>
             <div className="col-span-4 row-span-3 col-start-1 row-start-2">
-              <div className="card chart-card">
-                <h5 className="text-lg font-semibold text-center mb-1 text-gray-700">
-                  Interview Trends
-                </h5>
-                <ResponsiveContainer width="100%" height={300}>
-                  <LineChart data={interviewTrendsData}>
-                    <XAxis dataKey="date" />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Line type="monotone" dataKey="count" stroke="#3f51b5" />
-                  </LineChart>
-                </ResponsiveContainer>
-              </div>
-            </div>
+  <div className="card chart-card" style={{ height: '400px' }}>
+    <h5 className="text-lg font-semibold text-center mb-1 text-gray-700">
+      Interview Trends
+    </h5>
+    <ResponsiveContainer width="100%" height="90%">
+      <LineChart data={interviewTrendsData}>
+        <XAxis dataKey="date" />
+        <YAxis />
+        <Tooltip />
+        <Legend />
+        <Line type="monotone" dataKey="count" stroke="#3f51b5" />
+      </LineChart>
+    </ResponsiveContainer>
+  </div>
+</div>
+
+
             <div className="col-span-4 row-span-3 col-start-1 row-start-5">
               <div className="card chart-card">
                 <h5 className="text-lg font-semibold text-center mb-2 mt-2 text-gray-700">
@@ -227,30 +229,48 @@ const InterviewAnalytics = () => {
             </div>
           </div>
           <Fab
-            color="primary"
-            aria-label="fun facts"
-            style={{
-              position: "fixed",
-              bottom: "2rem",
-              right: "2rem",
-              zIndex: 1000,
-              width: "80px", // Larger circle
-              height: "80px", // Larger circle
-            }}
-            onClick={() => {
-              const fab = document.getElementById("juggleFab");
-              if (fab) {
-                fab.classList.add("juggle"); // Add juggle animation
-                setTimeout(() => {
-                  fab.classList.remove("juggle"); // Remove animation after it ends
-                  handleFabClick(); // Open popup after animation
-                }, 500); // Delay matches the animation duration
-              }
-            }}
-            id="juggleFab"
-          >
-            <span style={{ fontSize: "3rem" }}>🤔</span>
-          </Fab>
+  aria-label="fun facts"
+  style={{
+    position: "fixed",
+    bottom: "2rem",
+    right: "2rem",
+    zIndex: 1000,
+    width: "70px", // Larger circle
+    height: "70px", // Larger circle
+    backgroundColor: 'black', // Sleek dark gray
+    color: "white", // White icon
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
+  }}
+  onClick={() => {
+    const fab = document.getElementById("juggleFab");
+    if (fab) {
+      fab.classList.add("juggle"); // Add juggle animation
+      setTimeout(() => {
+        fab.classList.remove("juggle"); // Remove animation after it ends
+        handleFabClick(); // Open popup after animation
+      }, 500); // Delay matches the animation duration
+    }
+  }}
+  id="juggleFab"
+>
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 24 24"
+    style={{
+      width: "50px",
+      height: "50px",
+    }}
+    fill="white"
+  >
+    <circle cx="12" cy="12" r="10" fill="#555" /> {/* Outer circle */}
+    <path d="M12 7c-1.65 0-3 1.35-3 3h2a1 1 0 0 1 2 0c0 .55-.45 1-1 1-1.1 0-2 .9-2 2v1h2v-1c0-.55.45-1 1-1 1.1 0 2-.9 2-2s-1.35-3-3-3z" />
+    <circle cx="11.2" cy="17" r="1" /> {/* Adjusted dot */}
+    </svg>
+</Fab>
+
 
           <style>
             {`
