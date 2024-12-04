@@ -214,7 +214,7 @@ const Dashboard = () => {
             ))}
           </div>
         </div>
-        <MessagesSection />
+       
       </div>
     </div>
   );
@@ -286,7 +286,7 @@ const ProjectBox = ({ project, index, handleDelete }) => {
       });
       console.log('Updated interview data:', response.data);
       setShowEditPopup(false);
-      message.success("Interview details updated sucessfully!",1)
+      message.success("Interview details updated sucessfully!",3)
       setTimeout(() => {
         window.location.reload();
       }, 1000);
@@ -332,8 +332,7 @@ const ProjectBox = ({ project, index, handleDelete }) => {
 </div>
 
         <div className="project-box-footer">
-          <div className="days-left" style={{ color: project.progressColor }}>
-            {project.daysLeft} Days Left
+          <div className="dummy">
           </div>
           <div className="participants">
           {Array.isArray(project.interviewerName)
@@ -698,7 +697,7 @@ const MessageBox = ({ message }) => {
     <div className="message-box">
 
       <div className="message-content">
-        <Leaderboard/>
+        
      
       </div>
     </div>

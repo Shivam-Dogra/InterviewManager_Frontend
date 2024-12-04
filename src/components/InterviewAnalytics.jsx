@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Sidebar from "../components/Slidebar";
 import TopNavbar from "../components/TopNavbar";
+import Leaderboard from '../components/Leaderboard';
 import {
   PieChart,
   Pie,
@@ -150,7 +151,7 @@ const InterviewAnalytics = () => {
               </div>
             </div>
             <div className="col-span-4 row-span-3 col-start-1 row-start-2">
-  <div className="card chart-card" style={{ height: '400px' }}>
+  <div className="card chart-card -mt-10" style={{ height: '530px' }}>
     <h5 className="text-lg font-semibold text-center mb-1 text-gray-700">
       Interview Trends
     </h5>
@@ -168,8 +169,8 @@ const InterviewAnalytics = () => {
 
 
             <div className="col-span-4 row-span-3 col-start-1 row-start-5">
-              <div className="card chart-card">
-                <h5 className="text-lg font-semibold text-center mb-2 mt-2 text-gray-700">
+              <div className="card chart-card" style={{ height: '400px' }}>
+                <h5 className="text-lg font-semibold text-center mb-2 mt-2 text-gray-700" >
                   Department Counts
                 </h5>
                 <ResponsiveContainer width="100%" height={300}>
@@ -193,7 +194,7 @@ const InterviewAnalytics = () => {
               </div>
             </div>
             <div className="col-span-3 row-span-3 col-start-5 row-start-5">
-              <div className="card chart-card">
+              <div className="card chart-card" style={{ height: '400px' }}>
                 <h5 className="text-sm font-semibold text-center mb-3 mt-2 text-gray-700">
                   Top 5 Skills Checked
                 </h5>
@@ -215,16 +216,7 @@ const InterviewAnalytics = () => {
 
             <div className="col-span-3 row-span-4 col-start-5 row-start-1">
               <div className="card lg-card text-center">
-                <h5 className="text-lg font-semibold mb-2 text-gray-700">
-                  Interviewers
-                </h5>
-                <div className="interviewer-list grid grid-cols-2 gap-2 mt-2">
-                  {data.interviewers.map((interviewer, index) => (
-                    <span key={index} className="interviewer-name">
-                      {interviewer}
-                    </span>
-                  ))}
-                </div>
+                <Leaderboard/>
               </div>
             </div>
           </div>
@@ -243,6 +235,7 @@ const InterviewAnalytics = () => {
     justifyContent: "center",
     alignItems: "center",
     boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
+    fontSize: "30px", 
   }}
   onClick={() => {
     const fab = document.getElementById("juggleFab");
@@ -254,21 +247,9 @@ const InterviewAnalytics = () => {
       }, 500); // Delay matches the animation duration
     }
   }}
-  id="juggleFab"
+  id="juggleFab" 
 >
-  <svg
-    xmlns="http://www.w3.org/2000/svg"
-    viewBox="0 0 24 24"
-    style={{
-      width: "50px",
-      height: "50px",
-    }}
-    fill="white"
-  >
-    <circle cx="12" cy="12" r="10" fill="#555" /> {/* Outer circle */}
-    <path d="M12 7c-1.65 0-3 1.35-3 3h2a1 1 0 0 1 2 0c0 .55-.45 1-1 1-1.1 0-2 .9-2 2v1h2v-1c0-.55.45-1 1-1 1.1 0 2-.9 2-2s-1.35-3-3-3z" />
-    <circle cx="11.2" cy="17" r="1" /> {/* Adjusted dot */}
-    </svg>
+💡
 </Fab>
 
 

@@ -92,7 +92,7 @@ const CustomCalendar = () => {
           events={events}
           startAccessor="start"
           endAccessor="end"
-          style={{ height: 700, width: 1520, borderRadius: '10px', overflow: 'hidden' }}
+          style={{ height: 800, width: 1520, borderRadius: '10px', overflow: 'hidden' }}
           defaultView="month"
           views={['month']}
           toolbar
@@ -111,7 +111,7 @@ const CustomCalendar = () => {
                 alignItems: "center",
                 justifyContent: "center",
                 fontWeight: "bold",
-                fontSize: "0.8em",
+                fontSize: "0.7em",
                 textAlign: "center",
                 marginTop: "2px"
               }

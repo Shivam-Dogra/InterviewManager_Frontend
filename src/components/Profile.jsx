@@ -77,6 +77,8 @@ const ProfilePage = () => {
   
     if (loading) return <div>Loading...</div>;
     if (error) return <div className="text-red-500">{error}</div>;
+    const editableStyle = editMode ? { borderColor: '##E8EDD9', backgroundColor: '#E8EAF6' } : {};
+
   
     return (
         <div className="dashboard-container">
@@ -94,7 +96,7 @@ const ProfilePage = () => {
             <div className="content-area flex justify-center items-center w-full h-screen bg-gray-100">
               <div className="container mx-auto my-4 px-4 lg:px-20">
                 <div className="w-full p-8 md:px-12 lg:w-9/12 lg:pl-20 lg:pr-40 mx-auto rounded-2xl shadow-2xl bg-white relative" style={{ top: '-70px' }}>
-                  <h1 className="font-bold uppercase text-5xl text-black mb-6 text-center">Profile</h1>
+                  <h1 className="font-bold uppercase text-5xl text-black mb-6">Profile</h1>
                      
                   <div className="grid grid-cols-1 gap-6 md:grid-cols-2">
                     <input
@@ -103,7 +105,7 @@ const ProfilePage = () => {
                       value={user.name || ''}
                       onChange={(e) => handleInputChange('name', e.target.value)}
                       placeholder="Profile Name*"
-                      disabled={!editMode}
+                      disabled={editMode}
                     />
                     <input
                       className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
@@ -111,7 +113,7 @@ const ProfilePage = () => {
                       value={user.email || ''}
                       onChange={(e) => handleInputChange('email', e.target.value)}
                       placeholder="Email*"
-                      disabled={!editMode}
+                      disabled={editMode}
                     />
                     <input
                       className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
@@ -120,12 +122,14 @@ const ProfilePage = () => {
                       onChange={(e) => handleInputChange('position', e.target.value)}
                       placeholder="Position*"
                       disabled={!editMode}
+                      style={editMode ? editableStyle : {}}
                     />
                     <select
                   className="w-full bg-gray-100 text-gray-900 p-3 rounded-lg focus:outline-none focus:shadow-outline"
                   value={user.department || ''}
                   onChange={(e) => handleInputChange('department', e.target.value)}
                   disabled={!editMode}
+                  style={editMode ? editableStyle : {}}
                 >
                   <option value="" disabled>
                     Select Department*
@@ -143,6 +147,7 @@ const ProfilePage = () => {
                   onChange={(e) => handleInputChange('linkedin', e.target.value)}
                   placeholder="LinkedIn Profile URL"
                   disabled={!editMode}
+                  style={editMode ? editableStyle : {}}
                 />
                 <TextField
                   label="Skills"
@@ -152,6 +157,7 @@ const ProfilePage = () => {
                   onChange={(e) => handleInputChange('skills', e.target.value)}
                   fullWidth
                   disabled={!editMode}
+                  style={editMode ? editableStyle : {}}
                 />
                   </div>
                  
@@ -161,6 +167,7 @@ const ProfilePage = () => {
                     value={user.about || ''}
                     onChange={(e) => handleInputChange('about', e.target.value)}
                     disabled={!editMode}
+                    style={editMode ? editableStyle : {}}
                   ></textarea>
                  
     

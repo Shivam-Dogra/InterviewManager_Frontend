@@ -272,12 +272,11 @@ const ProjectBox = ({ project, index }) => {
       ))}
 </div>
         <div className="project-box-footer">
-          <div className="days-left" style={{ color: project.progressColor }}>
-            {project.daysLeft} Days Left
+          <div className="dummy" >
           </div>
           <div className="participants">
             {project.participants && project.participants.map((name, idx) => {
-              // Check if name is not undefined or null
+              // Check if name is not undefined or null <div className="days-left" style={{ color: project.progressColor }}>  {project.daysLeft} Days Left
   if (name) {
     const initials = name.split(' ').map(word => word[0].toUpperCase()).join('');
     return (

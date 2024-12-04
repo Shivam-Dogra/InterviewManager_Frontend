@@ -61,8 +61,15 @@ const Leaderboard = () => {
                     </div>
                     {user.name}
                   </td>
-                  <td className="leaderboard-cell leaderboard-points">
+                  <td className="leaderboard-cell leaderboard-points">   
                     {user.count} {user.count > 1 ? 'interviews' : 'interview'}
+                    {index === 0 && (
+                      <img
+                        src="https://github.com/malunaridev/Challenges-iCodeThis/blob/master/4-leaderboard/assets/gold-medal.png?raw=true"
+                        alt="Gold Medal"
+                        className="gold-medal"
+                      />
+                    )}
                   </td>
                 </tr>
               ))}

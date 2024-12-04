@@ -29,9 +29,9 @@ const Register = () => {
         position,
         department,
       });
-      message.success('Registered Successfully!', 2);
+      message.success('Registered Successfully!', 3);
       console.log(response.data);
-      navigate('/'); 
+      navigate('/login'); 
       
     } catch (error) {
       console.error('Registration error:', error);

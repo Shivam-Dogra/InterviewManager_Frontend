@@ -20,7 +20,7 @@ const Login = () => {
         email,
         password,
       });
-      message.success('Login Successfull!', 2);
+      message.success('Login Successfull!', 3);
       
       const { token, user } = response.data;
       localStorage.setItem('token', token);
@@ -64,7 +64,7 @@ const Login = () => {
               required
             />
           </div>
-          <button className="login-btn" type="submit"  style={{ width: "430px", fontSize: "16px" }}>Login</button>
+          <button className="login-btn" type="submit"  style={{ width: "400px", fontSize: "16px" }}>Login</button>
         </form>
         <p className="sign-up-link">
           Don’t have an account? <a href="/register">Sign up</a>

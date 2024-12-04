@@ -55,7 +55,22 @@ const ScheduleInterview = () => {
           Authorization: `Bearer ${token}`,
         },
       });
-      message.success('Interview Scheduled Successfully!', 2);
+      message.success('Interview Scheduled Successfully!', 3);
+      
+    setFormData({
+      title: '',
+      interviewerName: '',
+      interviewerEmail: '',
+      intervieweesName: [],
+      skillset: '',
+      duration: 0,
+      date: '',
+      time: '',
+      notes: '',
+      department: '',
+      signedUp: '',
+    });
+
     } catch (error) {
       console.error('Error:', error.response ? error.response.data : error.message);
       Modal.error({
